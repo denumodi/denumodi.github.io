@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="google-site-verification" content="J5zhhiCXSYMtuZ6-iHpwncGvuV85oKfU1JPIDe0yZPo" />
+  <meta name="google-site-verification" content="J5zhhiCXSYMtuZ6-iHpwncGvuV85oKfU1JPIDe0yZPo" />
   <meta name="google-adsense-account" content="ca-pub-9373190008575855" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9373190008575855" crossorigin="anonymous"></script>
   <title>DenuModi — 2D Mood Check, Emotional Energy & Circadian Analyzer</title>
@@ -97,7 +97,14 @@ a:hover { color: var(--primary-hover); }
 .hero p { font-size: 1.06rem; color: #e2e8f0; max-width: 820px; }
 .grid-2 { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 24px; align-items: start; }
 .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-@media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
+.charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: center; margin: 14px 0; }
+@media (max-width: 900px) {
+  .grid-2, .grid-3, .charts-grid { grid-template-columns: 1fr !important; }
+  .container { padding: 16px 12px; }
+  .hero { padding: 24px 16px; }
+  .card { padding: 16px; overflow-x: hidden; }
+  .data-table { display: block; width: 100%; overflow-x: auto; }
+}
 .card {
   background: var(--surface); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); margin-bottom: 24px;
@@ -210,17 +217,18 @@ select:focus, input:focus, textarea:focus {
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "DenuModi", "url": "https://denumodi.github.io/", "description": "Interactive 2D Circumplex Mood Check, Cognitive Burnout Calculator, Circadian Energy Planner, and Affective Science Research Library."}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "DenuModi 2D Circumplex Mood Check & Emotional Energy Analyzer", "url": "https://denumodi.github.io/", "applicationCategory": "HealthApplication", "operatingSystem": "All", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "featureList": ["2D Circumplex Model of Affect (Valence x Arousal) interactive coordinate plotter", "5-axis affective radar chart (Valence, Energy, Clarity, Somatic Calm, Social Battery)", "Sleep debt, caffeine half-life, and unbroken screen time physiological adjustments", "Client-side journal sentiment and cognitive distortion lexical check", "Local browser mood log with CSV export"]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How often should I perform a structured mood check?", "acceptedAnswer": {"@type": "Answer", "text": "Checking in two to three times per day—typically 60 minutes after waking, mid-afternoon, and at the end of your workday—captures your circadian peak, post-prandial dip, and cumulative cognitive load."}}, {"@type": "Question", "name": "Is my mood check data uploaded to any cloud server?", "acceptedAnswer": {"@type": "Answer", "text": "No. DenuModi processes all slider values, lexical journal analysis, and historical logs 100% locally inside your web browser using JavaScript and localStorage."}}, {"@type": "Question", "name": "What is the difference between Emotional Valence and Arousal?", "acceptedAnswer": {"@type": "Answer", "text": "Valence measures how pleasant or unpleasant a feeling is, while Arousal measures the degree of physiological activation or energy accompanying that state."}}]}</script>
+<script>if(location.pathname.endsWith('.html')){history.replaceState(null,'',location.pathname.replace(/index\.html$/,'').replace(/\.html$/,'')+location.search+location.hash);}</script>
 </head>
 <body>
   <a href="#main-content" class="skip-link">Skip to main content</a>
 <header class="site-header">
   <div class="header-inner">
-    <a href="index.html" class="brand" aria-label="DenuModi Home">
+    <a href="/" class="brand" aria-label="DenuModi Home">
       <span class="brand-badge" aria-hidden="true">DM</span>
       <span>DenuModi <small style="display:block;font-size:0.72rem;font-weight:600;color:#334155;">Affective &amp; Circadian Lab</small></span>
     </a>
     <nav class="main-nav" aria-label="Primary Navigation">
-      <a href="index.html" aria-current="page">Mood Check Tool</a><a href="burnout-load-calculator.html">Burnout Load</a><a href="circadian-mood-planner.html">Circadian Planner</a><a href="breathing-pacer-tool.html">Breathing Pacer</a><a href="emotion-wheel-tool.html">Emotion Wheel</a><a href="circumplex-model-of-affect-guide.html">Research Guides</a><a href="about.html">About</a>
+      <a href="/" aria-current="page">Mood Check Tool</a><a href="/burnout-load-calculator">Burnout Load</a><a href="/circadian-mood-planner">Circadian Planner</a><a href="/breathing-pacer-tool">Breathing Pacer</a><a href="/emotion-wheel-tool">Emotion Wheel</a><a href="/circumplex-model-of-affect-guide">Research Guides</a><a href="/about">About</a>
     </nav>
   </div>
 </header>
@@ -373,7 +381,7 @@ select:focus, input:focus, textarea:focus {
       </div>
     </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:center;margin:14px 0;">
+    <div class="charts-grid">
       <div style="text-align:center;">
         <div style="font-size:0.82rem;font-weight:700;margin-bottom:6px;color:var(--text-muted);">2D Circumplex Grid (Valence &times; Arousal)</div>
         <svg id="circumplex-svg" viewBox="0 0 240 240" width="220" height="220" role="img" aria-label="2D Circumplex Mood Coordinate Grid" style="max-width:100%;height:auto;border:1px solid var(--border);border-radius:10px;background:#f8fafc;">
@@ -423,7 +431,7 @@ select:focus, input:focus, textarea:focus {
 
     <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
       <span style="font-size:0.88rem;font-weight:700;">Need rapid autonomic down-regulation?</span>
-      <a href="breathing-pacer-tool.html" class="btn btn-accent" style="min-height:44px;padding:8px 14px;font-size:0.86rem;">Open Live Breathing Pacer &rarr;</a>
+      <a href="/breathing-pacer-tool" class="btn btn-accent" style="min-height:44px;padding:8px 14px;font-size:0.86rem;">Open Live Breathing Pacer &rarr;</a>
     </div>
   </section>
 </div>
@@ -464,22 +472,22 @@ select:focus, input:focus, textarea:focus {
   <div class="grid-3">
     <div style="border:1px solid var(--border);border-radius:10px;padding:18px;background:var(--surface-alt);">
       <span class="badge">Stress &amp; Recovery</span>
-      <h3 style="margin-top:8px;"><a href="burnout-load-calculator.html">Cognitive Burnout &amp; Stress Load Calculator</a></h3>
+      <h3 style="margin-top:8px;"><a href="/burnout-load-calculator">Cognitive Burnout &amp; Stress Load Calculator</a></h3>
       <p style="font-size:0.92rem;color:var(--text-muted);">Quantify cumulative workload strain, sleep debt, and context-switching fatigue on a 0–100 clinical-style burnout index.</p>
     </div>
     <div style="border:1px solid var(--border);border-radius:10px;padding:18px;background:var(--surface-alt);">
       <span class="badge">Chronobiology</span>
-      <h3 style="margin-top:8px;"><a href="circadian-mood-planner.html">Circadian Chronotype &amp; Peak Mood Planner</a></h3>
+      <h3 style="margin-top:8px;"><a href="/circadian-mood-planner">Circadian Chronotype &amp; Peak Mood Planner</a></h3>
       <p style="font-size:0.92rem;color:var(--text-muted);">Generate a custom 24-hour alertness and mood curve based on your wake time, sleep duration, and ultradian cycles.</p>
     </div>
     <div style="border:1px solid var(--border);border-radius:10px;padding:18px;background:var(--surface-alt);">
       <span class="badge">Autonomic Reset</span>
-      <h3 style="margin-top:8px;"><a href="breathing-pacer-tool.html">Box Breathing &amp; HRV Resonance Pacer</a></h3>
+      <h3 style="margin-top:8px;"><a href="/breathing-pacer-tool">Box Breathing &amp; HRV Resonance Pacer</a></h3>
       <p style="font-size:0.92rem;color:var(--text-muted);">Visual SVG breathing pacer supporting Box (4-4-4-4), 4-7-8 Relaxing Sigh, and 5.5s HRV Coherent Resonance protocols.</p>
     </div>
     <div style="border:1px solid var(--border);border-radius:10px;padding:18px;background:var(--surface-alt);">
       <span class="badge">Affective Lexicon</span>
-      <h3 style="margin-top:8px;"><a href="emotion-wheel-tool.html">72-State Emotion Granularity Wheel</a></h3>
+      <h3 style="margin-top:8px;"><a href="/emotion-wheel-tool">72-State Emotion Granularity Wheel</a></h3>
       <p style="font-size:0.92rem;color:var(--text-muted);">Translate vague feelings into precise affective vocabulary with somatic markers and cognitive reappraisal prompts.</p>
     </div>
   </div>
@@ -546,51 +554,51 @@ select:focus, input:focus, textarea:focus {
   <h3>Evidence-Based Research Library on Mood &amp; Cognitive Energy</h3>
   <div class="grid-3">
     <div style="border:1px solid var(--border);border-radius:8px;padding:14px;">
-      <h4 style="margin-bottom:6px;"><a href="circumplex-model-of-affect-guide.html">The Circumplex Model of Affect</a></h4>
+      <h4 style="margin-bottom:6px;"><a href="/circumplex-model-of-affect-guide">The Circumplex Model of Affect</a></h4>
       <p style="font-size:0.88rem;color:var(--text-muted);margin:0;">How valence and arousal coordinates outperform 1D mood scales in predicting focus and stress recovery.</p>
     </div>
     <div style="border:1px solid var(--border);border-radius:8px;padding:14px;">
-      <h4 style="margin-bottom:6px;"><a href="sleep-debt-mood-volatility-science.html">Sleep Debt &amp; Prefrontal-Amygdala Coupling</a></h4>
+      <h4 style="margin-bottom:6px;"><a href="/sleep-debt-mood-volatility-science">Sleep Debt &amp; Prefrontal-Amygdala Coupling</a></h4>
       <p style="font-size:0.88rem;color:var(--text-muted);margin:0;">Quantifying how cumulative sleep restriction alters emotional regulation and threat perception.</p>
     </div>
     <div style="border:1px solid var(--border);border-radius:8px;padding:14px;">
-      <h4 style="margin-bottom:6px;"><a href="emotional-granularity-productivity.html">Emotional Granularity &amp; Stress Resilience</a></h4>
+      <h4 style="margin-bottom:6px;"><a href="/emotional-granularity-productivity">Emotional Granularity &amp; Stress Resilience</a></h4>
       <p style="font-size:0.88rem;color:var(--text-muted);margin:0;">Why differentiating precise affective states reduces physiological cortisol spikes by over 30%.</p>
     </div>
     <div style="border:1px solid var(--border);border-radius:8px;padding:14px;">
-      <h4 style="margin-bottom:6px;"><a href="ultradian-rhythms-energy-dips.html">Ultradian Rhythms &amp; 90-Minute Cycles</a></h4>
+      <h4 style="margin-bottom:6px;"><a href="/ultradian-rhythms-energy-dips">Ultradian Rhythms &amp; 90-Minute Cycles</a></h4>
       <p style="font-size:0.88rem;color:var(--text-muted);margin:0;">Structuring deep work blocks around the Basic Rest-Activity Cycle (BRAC) to prevent mid-day mood crashes.</p>
     </div>
     <div style="border:1px solid var(--border);border-radius:8px;padding:14px;">
-      <h4 style="margin-bottom:6px;"><a href="caffeine-half-life-anxiety-curve.html">Caffeine Pharmacokinetics &amp; Anxiety Curves</a></h4>
+      <h4 style="margin-bottom:6px;"><a href="/caffeine-half-life-anxiety-curve">Caffeine Pharmacokinetics &amp; Anxiety Curves</a></h4>
       <p style="font-size:0.88rem;color:var(--text-muted);margin:0;">Modeling CYP1A2 metabolism, adenosine rebound, and optimal stimulant timing for stable mood.</p>
     </div>
     <div style="border:1px solid var(--border);border-radius:8px;padding:14px;">
-      <h4 style="margin-bottom:6px;"><a href="digital-context-switching-fatigue.html">Attention Residue &amp; Context-Switching Fatigue</a></h4>
+      <h4 style="margin-bottom:6px;"><a href="/digital-context-switching-fatigue">Attention Residue &amp; Context-Switching Fatigue</a></h4>
       <p style="font-size:0.88rem;color:var(--text-muted);margin:0;">How rapid task switching degrades executive function and elevates subjective irritability.</p>
     </div>
     <div style="border:1px solid var(--border);border-radius:8px;padding:14px;">
-      <h4 style="margin-bottom:6px;"><a href="autonomic-breathing-hrv-regulation.html">Respiratory Sinus Arrhythmia &amp; HRV Pacing</a></h4>
+      <h4 style="margin-bottom:6px;"><a href="/autonomic-breathing-hrv-regulation">Respiratory Sinus Arrhythmia &amp; HRV Pacing</a></h4>
       <p style="font-size:0.88rem;color:var(--text-muted);margin:0;">The vagal nerve mechanics behind physiological sighs, box breathing, and resonance frequency breathing.</p>
     </div>
     <div style="border:1px solid var(--border);border-radius:8px;padding:14px;">
-      <h4 style="margin-bottom:6px;"><a href="chronotype-alignment-work-schedule.html">Chronotype Alignment &amp; Peak Mood Windows</a></h4>
+      <h4 style="margin-bottom:6px;"><a href="/chronotype-alignment-work-schedule">Chronotype Alignment &amp; Peak Mood Windows</a></h4>
       <p style="font-size:0.88rem;color:var(--text-muted);margin:0;">Mapping early, intermediate, and late chronotypes to analytical and creative task performance.</p>
     </div>
     <div style="border:1px solid var(--border);border-radius:8px;padding:14px;">
-      <h4 style="margin-bottom:6px;"><a href="cognitive-reframing-journaling-methods.html">Structured Affective Journaling Protocols</a></h4>
+      <h4 style="margin-bottom:6px;"><a href="/cognitive-reframing-journaling-methods">Structured Affective Journaling Protocols</a></h4>
       <p style="font-size:0.88rem;color:var(--text-muted);margin:0;">Avoiding unproductive rumination through structured cognitive reappraisal and linguistic distancing.</p>
     </div>
     <div style="border:1px solid var(--border);border-radius:8px;padding:14px;">
-      <h4 style="margin-bottom:6px;"><a href="hydration-electrolytes-cognitive-mood.html">Subclinical Dehydration &amp; Mood Disturbance</a></h4>
+      <h4 style="margin-bottom:6px;"><a href="/hydration-electrolytes-cognitive-mood">Subclinical Dehydration &amp; Mood Disturbance</a></h4>
       <p style="font-size:0.88rem;color:var(--text-muted);margin:0;">How a 1.5% drop in body water alters plasma osmolality, perceived fatigue, and tension headaches.</p>
     </div>
     <div style="border:1px solid var(--border);border-radius:8px;padding:14px;">
-      <h4 style="margin-bottom:6px;"><a href="sunlight-lux-serotonin-circadian-anchor.html">Morning Lux Exposure &amp; Circadian Anchoring</a></h4>
+      <h4 style="margin-bottom:6px;"><a href="/sunlight-lux-serotonin-circadian-anchor">Morning Lux Exposure &amp; Circadian Anchoring</a></h4>
       <p style="font-size:0.88rem;color:var(--text-muted);margin:0;">Why 10,000 lux of outdoor morning light stabilizes daytime serotonin tone and evening melatonin onset.</p>
     </div>
     <div style="border:1px solid var(--border);border-radius:8px;padding:14px;">
-      <h4 style="margin-bottom:6px;"><a href="workplace-burnout-recovery-metrics.html">Occupational Burnout vs. Acute Fatigue</a></h4>
+      <h4 style="margin-bottom:6px;"><a href="/workplace-burnout-recovery-metrics">Occupational Burnout vs. Acute Fatigue</a></h4>
       <p style="font-size:0.88rem;color:var(--text-muted);margin:0;">Distinguishing transient work exhaustion from chronic burnout using objective behavioral recovery metrics.</p>
     </div>
   </div>
@@ -856,32 +864,32 @@ document.addEventListener('DOMContentLoaded', function() {
     <div>
       <h3>Interactive Mood Tools</h3>
       <ul>
-        <li><a href="index.html">2D Mood &amp; Affect Check</a></li>
-        <li><a href="burnout-load-calculator.html">Cognitive Burnout Calculator</a></li>
-        <li><a href="circadian-mood-planner.html">Circadian Peak Mood Planner</a></li>
-        <li><a href="breathing-pacer-tool.html">Autonomic Breathing Pacer</a></li>
-        <li><a href="emotion-wheel-tool.html">72-State Emotion Granularity Wheel</a></li>
+        <li><a href="/">2D Mood &amp; Affect Check</a></li>
+        <li><a href="/burnout-load-calculator">Cognitive Burnout Calculator</a></li>
+        <li><a href="/circadian-mood-planner">Circadian Peak Mood Planner</a></li>
+        <li><a href="/breathing-pacer-tool">Autonomic Breathing Pacer</a></li>
+        <li><a href="/emotion-wheel-tool">72-State Emotion Granularity Wheel</a></li>
       </ul>
     </div>
     <div>
       <h3>Affective Science Guides</h3>
       <ul>
-        <li><a href="circumplex-model-of-affect-guide.html">Circumplex Model of Affect</a></li>
-        <li><a href="sleep-debt-mood-volatility-science.html">Sleep Debt &amp; Mood Volatility</a></li>
-        <li><a href="emotional-granularity-productivity.html">Emotional Granularity Science</a></li>
-        <li><a href="ultradian-rhythms-energy-dips.html">Ultradian 90-Minute Cycles</a></li>
-        <li><a href="caffeine-half-life-anxiety-curve.html">Caffeine Half-Life &amp; Mood</a></li>
+        <li><a href="/circumplex-model-of-affect-guide">Circumplex Model of Affect</a></li>
+        <li><a href="/sleep-debt-mood-volatility-science">Sleep Debt &amp; Mood Volatility</a></li>
+        <li><a href="/emotional-granularity-productivity">Emotional Granularity Science</a></li>
+        <li><a href="/ultradian-rhythms-energy-dips">Ultradian 90-Minute Cycles</a></li>
+        <li><a href="/caffeine-half-life-anxiety-curve">Caffeine Half-Life &amp; Mood</a></li>
       </ul>
     </div>
     <div>
       <h3>Governance &amp; Trust</h3>
       <ul>
-        <li><a href="about.html">About DenuModi</a></li>
-        <li><a href="editorial-policy.html">Editorial &amp; Research Policy</a></li>
-        <li><a href="privacy-policy.html">Privacy Policy</a></li>
-        <li><a href="terms.html">Terms of Service</a></li>
-        <li><a href="disclaimer.html">Wellness Disclaimer</a></li>
-        <li><a href="contact.html">Contact &amp; Feedback</a></li>
+        <li><a href="/about">About DenuModi</a></li>
+        <li><a href="/editorial-policy">Editorial &amp; Research Policy</a></li>
+        <li><a href="/privacy-policy">Privacy Policy</a></li>
+        <li><a href="/terms">Terms of Service</a></li>
+        <li><a href="/disclaimer">Wellness Disclaimer</a></li>
+        <li><a href="/contact">Contact &amp; Feedback</a></li>
       </ul>
     </div>
   </div>
