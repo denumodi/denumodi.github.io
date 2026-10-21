@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en" id="top">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sleep Debt and Emotional Volatility: Quantifying the Prefrontal-Amygdala Disconnect — DenuModi</title>
+  <meta name="description" content="How cumulative sleep restriction below 7 hours impairs ventromedial prefrontal cortex inhibition of the amygdala, increasing mood volatility by up to 60%." />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href="https://denumodi.github.io/sleep-debt-mood-volatility-science.html" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="DenuModi" />
+  <meta property="og:title" content="Sleep Debt and Emotional Volatility: Quantifying the Prefrontal-Amygdala Disconnect — DenuModi" />
+  <meta property="og:description" content="How cumulative sleep restriction below 7 hours impairs ventromedial prefrontal cortex inhibition of the amygdala, increasing mood volatility by up to 60%." />
+  <meta property="og:url" content="https://denumodi.github.io/sleep-debt-mood-volatility-science.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Sleep Debt and Emotional Volatility: Quantifying the Prefrontal-Amygdala Disconnect — DenuModi" />
+  <meta name="twitter:description" content="How cumulative sleep restriction below 7 hours impairs ventromedial prefrontal cortex inhibition of the amygdala, increasing mood volatility by up to 60%." />
+  <style>
+:root {
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-alt: #f1f5f9;
+  --text: #0f172a;
+  --text-muted: #334155;
+  --border: #cbd5e1;
+  --primary: #1e40af;
+  --primary-hover: #1e3a8a;
+  --primary-light: #dbeafe;
+  --accent: #0f766e;
+  --accent-light: #ccfbf1;
+  --warn: #b45309;
+  --warn-light: #fef3c7;
+  --danger: #b91c1c;
+  --danger-light: #fee2e2;
+  --radius: 12px;
+  --shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--primary); text-decoration: underline; text-underline-offset: 3px; font-weight: 500; }
+a:hover { color: var(--primary-hover); }
+.skip-link {
+  position: absolute; top: -60px; left: 12px; background: var(--primary); color: #fff;
+  padding: 10px 16px; border-radius: 6px; z-index: 9999; text-decoration: none; font-weight: 600;
+}
+.skip-link:focus { top: 12px; }
+.site-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 100;
+}
+.header-inner {
+  max-width: 1200px; margin: 0 auto; padding: 12px 20px;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+}
+.brand {
+  display: inline-flex; align-items: center; gap: 10px;
+  text-decoration: none; color: var(--text); font-weight: 800; font-size: 1.25rem; letter-spacing: -0.02em;
+  min-height: 44px;
+}
+.brand-badge {
+  background: var(--primary); color: #ffffff; width: 36px; height: 36px;
+  border-radius: 9px; display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 1.05rem;
+}
+.main-nav { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.main-nav a {
+  text-decoration: none; color: var(--text); font-weight: 600; font-size: 0.94rem;
+  padding: 10px 14px; border-radius: 8px; min-height: 44px; display: inline-flex; align-items: center;
+}
+.main-nav a:hover, .main-nav a[aria-current="page"] {
+  background: var(--primary-light); color: var(--primary);
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 28px 20px; }
+.hero {
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+  color: #ffffff; border-radius: 16px; padding: 36px 28px; margin-bottom: 28px;
+  box-shadow: var(--shadow);
+}
+.hero-tag {
+  display: inline-block; background: rgba(255,255,255,0.16); color: #ffffff;
+  padding: 6px 12px; border-radius: 999px; font-size: 0.82rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;
+}
+.hero h1 { font-size: clamp(1.75rem, 3.2vw, 2.5rem); line-height: 1.2; margin-bottom: 12px; font-weight: 800; }
+.hero p { font-size: 1.06rem; color: #e2e8f0; max-width: 820px; }
+.grid-2 { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 24px; align-items: start; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+@media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); margin-bottom: 24px;
+}
+.card h2 { font-size: 1.38rem; margin-bottom: 12px; color: var(--text); font-weight: 800; }
+.card h3 { font-size: 1.14rem; margin: 16px 0 8px; color: var(--text); font-weight: 700; }
+.form-group { margin-bottom: 18px; }
+.form-label {
+  display: flex; justify-content: space-between; align-items: center;
+  font-weight: 700; font-size: 0.95rem; margin-bottom: 8px; color: var(--text);
+}
+.val-pill {
+  background: var(--primary-light); color: var(--primary);
+  padding: 2px 10px; border-radius: 999px; font-size: 0.85rem; font-weight: 800;
+}
+input[type="range"] {
+  width: 100%; height: 32px; cursor: pointer; accent-color: var(--primary);
+}
+select, input[type="number"], input[type="text"], input[type="email"], input[type="time"], textarea {
+  width: 100%; min-height: 46px; padding: 10px 14px; border: 1px solid #64748b;
+  border-radius: 8px; font-size: 0.98rem; background: #ffffff; color: var(--text);
+  font-family: inherit;
+}
+textarea { min-height: 96px; resize: vertical; }
+select:focus, input:focus, textarea:focus {
+  outline: 3px solid var(--primary-light); border-color: var(--primary);
+}
+.scale-hints {
+  display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;
+}
+.btn-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 46px; padding: 10px 20px; border-radius: 8px; font-weight: 700;
+  font-size: 0.96rem; cursor: pointer; border: none; text-decoration: none; transition: background 0.15s;
+}
+.btn-primary { background: var(--primary); color: #ffffff; }
+.btn-primary:hover { background: var(--primary-hover); color: #ffffff; }
+.btn-secondary { background: var(--surface-alt); color: var(--text); border: 1px solid #64748b; }
+.btn-secondary:hover { background: #e2e8f0; }
+.btn-accent { background: var(--accent); color: #ffffff; }
+.result-banner {
+  border-radius: 12px; padding: 18px; margin-bottom: 18px;
+  border-left: 6px solid var(--primary); background: var(--surface-alt);
+}
+.result-title { font-size: 1.3rem; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+.result-sub { font-size: 0.94rem; color: var(--text-muted); }
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); gap: 12px; margin: 16px 0; }
+.kpi-box {
+  background: var(--surface-alt); border: 1px solid var(--border);
+  border-radius: 10px; padding: 12px; text-align: center;
+}
+.kpi-num { font-size: 1.45rem; font-weight: 800; color: var(--primary); display: block; }
+.kpi-lbl { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
+.protocol-list { list-style: none; margin: 12px 0; }
+.protocol-list li {
+  padding: 10px 12px; background: var(--surface-alt); border-radius: 8px;
+  margin-bottom: 8px; font-size: 0.94rem; border-left: 4px solid var(--accent);
+}
+.data-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.93rem; }
+.data-table th, .data-table td {
+  border: 1px solid var(--border); padding: 10px 12px; text-align: left;
+}
+.data-table th { background: var(--surface-alt); font-weight: 700; color: var(--text); }
+.badge {
+  display: inline-block; padding: 4px 10px; border-radius: 999px;
+  font-size: 0.78rem; font-weight: 700; background: var(--primary-light); color: var(--primary);
+}
+.article-content p { margin-bottom: 16px; font-size: 1.02rem; color: var(--text); }
+.article-content ul, .article-content ol { margin: 0 0 18px 22px; }
+.article-content li { margin-bottom: 8px; }
+.callout {
+  background: var(--primary-light); border-left: 5px solid var(--primary);
+  padding: 16px 18px; border-radius: 8px; margin: 18px 0; color: #0f172a;
+}
+.callout-warn {
+  background: var(--warn-light); border-left: 5px solid var(--warn);
+  padding: 16px 18px; border-radius: 8px; margin: 18px 0; color: #0f172a;
+}
+.faq-item {
+  border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; background: var(--surface);
+}
+.faq-q { font-weight: 700; font-size: 1.02rem; color: var(--text); margin-bottom: 6px; }
+.faq-a { color: var(--text-muted); font-size: 0.95rem; }
+.site-footer {
+  background: #0f172a; color: #e2e8f0; padding: 44px 20px 28px; margin-top: 48px;
+}
+.footer-inner {
+  max-width: 1200px; margin: 0 auto; display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 28px;
+}
+.site-footer h3 { color: #ffffff; font-size: 1.05rem; margin-bottom: 12px; }
+.site-footer ul { list-style: none; }
+.site-footer li { margin-bottom: 6px; }
+.site-footer a {
+  color: #cbd5e1; text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; padding: 4px 0;
+}
+.site-footer a:hover { color: #ffffff; text-decoration: underline; }
+.footer-bottom {
+  max-width: 1200px; margin: 28px auto 0; padding-top: 20px;
+  border-top: 1px solid #334155; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+  font-size: 0.88rem; color: #cbd5e1;
+}
+.breadcrumb {
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 0.9rem;
+  margin-bottom: 18px; color: var(--text-muted);
+}
+.breadcrumb a { min-height: 44px; display: inline-flex; align-items: center; }
+</style>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Sleep Debt and Emotional Volatility: Quantifying the Prefrontal-Amygdala Disconnect", "description": "How cumulative sleep restriction below 7 hours impairs ventromedial prefrontal cortex inhibition of the amygdala, increasing mood volatility by up to 60%.", "datePublished": "2026-09-18", "dateModified": "2026-09-18", "author": {"@type": "Organization", "name": "DenuModi Affective & Circadian Research Lab", "url": "https://denumodi.github.io/about.html"}, "publisher": {"@type": "Organization", "name": "DenuModi", "url": "https://denumodi.github.io/"}, "mainEntityOfPage": "https://denumodi.github.io/sleep-debt-mood-volatility-science.html"}</script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="brand" aria-label="DenuModi Home">
+      <span class="brand-badge" aria-hidden="true">DM</span>
+      <span>DenuModi <small style="display:block;font-size:0.72rem;font-weight:600;color:#334155;">Affective &amp; Circadian Lab</small></span>
+    </a>
+    <nav class="main-nav" aria-label="Primary Navigation">
+      <a href="index.html">Mood Check Tool</a><a href="burnout-load-calculator.html">Burnout Load</a><a href="circadian-mood-planner.html">Circadian Planner</a><a href="breathing-pacer-tool.html">Breathing Pacer</a><a href="emotion-wheel-tool.html">Emotion Wheel</a><a href="circumplex-model-of-affect-guide.html">Research Guides</a><a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+  <main id="main-content" class="container">
+    
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html">Home</a> <span>/</span> <span>Sleep & Affective Neuroscience</span>
+    </nav>
+    <article class="card article-content">
+      <span class="badge" style="margin-bottom:10px;">Sleep & Affective Neuroscience &bull; Updated 2026-09-18</span>
+      <h1 style="font-size:clamp(1.6rem, 2.8vw, 2.2rem);line-height:1.25;margin-bottom:14px;font-weight:800;">Sleep Debt and Emotional Volatility: Quantifying the Prefrontal-Amygdala Disconnect</h1>
+      <p style="font-size:1.05rem;color:var(--text-muted);border-bottom:1px solid var(--border);padding-bottom:14px;">How cumulative sleep restriction below 7 hours impairs ventromedial prefrontal cortex inhibition of the amygdala, increasing mood volatility by up to 60%.</p>
+      <svg viewBox="0 0 520 190" width="520" height="190" role="img" aria-label="Sleep Hours vs Amygdala Reactivity Curve" style="max-width:100%;height:auto;background:#f8fafc;border:1px solid #cbd5e1;border-radius:10px;margin:14px 0;">
+          <line x1="50" y1="150" x2="480" y2="150" stroke="#334155" stroke-width="2"/>
+          <line x1="50" y1="25" x2="50" y2="150" stroke="#334155" stroke-width="2"/>
+          <polyline fill="none" stroke="#b91c1c" stroke-width="3.5" points="70,35 160,55 250,82 340,125 440,136"/>
+          <text x="70" y="170" font-size="10" fill="#0f172a">4.5h Sleep</text>
+          <text x="160" y="170" font-size="10" fill="#0f172a">5.5h Sleep</text>
+          <text x="250" y="170" font-size="10" fill="#0f172a">6.5h Sleep</text>
+          <text x="340" y="170" font-size="10" fill="#0f172a">7.5h Sleep</text>
+          <text x="430" y="170" font-size="10" fill="#0f172a">8.5h Sleep</text>
+          <text x="65" y="24" font-size="11" font-weight="700" fill="#b91c1c">Emotional Volatility / Amygdala Gain (%)</text>
+        </svg>
+      
+        <p>Even a modest reduction in nightly sleep—sleeping 5.5 hours instead of 7.5 hours for four consecutive nights—produces a disproportionate degradation in daytime mood stability. While subjective sleepiness plateaus after a few days of partial sleep restriction (leading workers to believe they have &ldquo;adapted&rdquo; to short sleep), objective affective telemetry reveals a steep, linear escalation in irritability, negative framing, and stress reactivity.</p>
+        <h2>The Prefrontal-Amygdala Functional Disconnect</h2>
+        <p>Neuroimaging studies led by Matthew Walker and colleagues demonstrated that sleep deprivation weakens functional connectivity between the <strong>medial prefrontal cortex (mPFC)</strong>—which acts as the rational top-down brake on emotional impulses—and the <strong>amygdala</strong>, the brain&rsquo;s threat-detection hub. Without adequate REM and slow-wave sleep overnight, amygdala reactivity to minor negative stimuli increases by roughly 60%, while parasympathetically mediated emotional recovery slows dramatically.</p>
+        <table class="data-table">
+          <thead><tr><th>14-Day Cumulative Sleep Debt</th><th>Prefrontal Executive Impact</th><th>Observed Mood Profile</th></tr></thead>
+          <tbody>
+            <tr><td>0 – 3 Hours</td><td>Baseline working memory &amp; cognitive flexibility</td><td>High frustration tolerance, stable positive affect</td></tr>
+            <tr><td>4 – 9 Hours</td><td>15–25% slower task-switching; afternoon attention lapses</td><td>Heightened sensitivity to interruptions; post-lunch mood dip</td></tr>
+            <tr><td>10+ Hours</td><td>Equivalent cognitive impairment to 0.05%+ BAC</td><td>Acute emotional volatility, cynicism, elevated burnout score</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-warn"><strong>Check Your Cumulative Debt:</strong> Enter your 14-day sleep average into our <a href="burnout-load-calculator.html">Cognitive Burnout &amp; Stress Load Calculator</a> to model your exact recovery horizon.</div>
+        <h2>Why REM Sleep Acts as Overnight Emotional First Aid</h2>
+        <p>During Rapid Eye Movement (REM) sleep—which concentrates heavily in the final two hours of an 8-hour sleep window—locus coeruleus norepinephrine levels drop to near zero while limbic memory networks reactivate daytime experiences. Cutting sleep short at 6 hours strips away up to 50% of total REM sleep, leaving yesterday&rsquo;s emotional charge unbuffered when you wake up.</p>
+        
+      <div style="margin-top:24px;padding-top:18px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+        <a href="index.html" class="btn btn-primary">&larr; Back to Interactive 2D Mood Check Tool</a>
+        <a href="burnout-load-calculator.html" class="btn btn-secondary">Open Burnout Load Calculator &rarr;</a>
+      </div>
+    </article>
+    
+  </main>
+  <footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <h3>DenuModi Mood &amp; Energy Lab</h3>
+      <p style="font-size:0.9rem;color:#cbd5e1;margin-bottom:12px;">
+        Interactive affective science utilities built on Russell's Circumplex Model of Affect (Valence &times; Arousal), PANAS dimensions, and circadian chronobiology. All calculations run 100% locally in your browser.
+      </p>
+      <p style="font-size:0.82rem;color:#94a3b8;">
+        Educational &amp; self-reflection utility only. Not a clinical or medical diagnostic instrument.
+      </p>
+    </div>
+    <div>
+      <h3>Interactive Mood Tools</h3>
+      <ul>
+        <li><a href="index.html">2D Mood &amp; Affect Check</a></li>
+        <li><a href="burnout-load-calculator.html">Cognitive Burnout Calculator</a></li>
+        <li><a href="circadian-mood-planner.html">Circadian Peak Mood Planner</a></li>
+        <li><a href="breathing-pacer-tool.html">Autonomic Breathing Pacer</a></li>
+        <li><a href="emotion-wheel-tool.html">72-State Emotion Granularity Wheel</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Affective Science Guides</h3>
+      <ul>
+        <li><a href="circumplex-model-of-affect-guide.html">Circumplex Model of Affect</a></li>
+        <li><a href="sleep-debt-mood-volatility-science.html">Sleep Debt &amp; Mood Volatility</a></li>
+        <li><a href="emotional-granularity-productivity.html">Emotional Granularity Science</a></li>
+        <li><a href="ultradian-rhythms-energy-dips.html">Ultradian 90-Minute Cycles</a></li>
+        <li><a href="caffeine-half-life-anxiety-curve.html">Caffeine Half-Life &amp; Mood</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Governance &amp; Trust</h3>
+      <ul>
+        <li><a href="about.html">About DenuModi</a></li>
+        <li><a href="editorial-policy.html">Editorial &amp; Research Policy</a></li>
+        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="disclaimer.html">Wellness Disclaimer</a></li>
+        <li><a href="contact.html">Contact &amp; Feedback</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 DenuModi (denumodi.github.io). All rights reserved.</span>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;">
+      <a href="sitemap.xml" style="color:#cbd5e1;min-height:44px;display:inline-flex;align-items:center;">XML Sitemap</a>
+      <a href="llms.txt" style="color:#cbd5e1;min-height:44px;display:inline-flex;align-items:center;">LLMs.txt</a>
+      <a href="#top" style="color:#ffffff;font-weight:700;min-height:44px;display:inline-flex;align-items:center;">&uarr; Back to Top</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

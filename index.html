@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en" id="top">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DenuModi — 2D Mood Check, Emotional Energy & Circadian Analyzer</title>
+  <meta name="description" content="Free interactive 2D Circumplex Mood Check tool. Measure emotional valence, physiological arousal, cognitive clarity, sleep debt, and burnout load 100% locally." />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href="https://denumodi.github.io/" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="DenuModi" />
+  <meta property="og:title" content="DenuModi — 2D Mood Check, Emotional Energy & Circadian Analyzer" />
+  <meta property="og:description" content="Free interactive 2D Circumplex Mood Check tool. Measure emotional valence, physiological arousal, cognitive clarity, sleep debt, and burnout load 100% locally." />
+  <meta property="og:url" content="https://denumodi.github.io/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="DenuModi — 2D Mood Check, Emotional Energy & Circadian Analyzer" />
+  <meta name="twitter:description" content="Free interactive 2D Circumplex Mood Check tool. Measure emotional valence, physiological arousal, cognitive clarity, sleep debt, and burnout load 100% locally." />
+  <style>
+:root {
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-alt: #f1f5f9;
+  --text: #0f172a;
+  --text-muted: #334155;
+  --border: #cbd5e1;
+  --primary: #1e40af;
+  --primary-hover: #1e3a8a;
+  --primary-light: #dbeafe;
+  --accent: #0f766e;
+  --accent-light: #ccfbf1;
+  --warn: #b45309;
+  --warn-light: #fef3c7;
+  --danger: #b91c1c;
+  --danger-light: #fee2e2;
+  --radius: 12px;
+  --shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--primary); text-decoration: underline; text-underline-offset: 3px; font-weight: 500; }
+a:hover { color: var(--primary-hover); }
+.skip-link {
+  position: absolute; top: -60px; left: 12px; background: var(--primary); color: #fff;
+  padding: 10px 16px; border-radius: 6px; z-index: 9999; text-decoration: none; font-weight: 600;
+}
+.skip-link:focus { top: 12px; }
+.site-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 100;
+}
+.header-inner {
+  max-width: 1200px; margin: 0 auto; padding: 12px 20px;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+}
+.brand {
+  display: inline-flex; align-items: center; gap: 10px;
+  text-decoration: none; color: var(--text); font-weight: 800; font-size: 1.25rem; letter-spacing: -0.02em;
+  min-height: 44px;
+}
+.brand-badge {
+  background: var(--primary); color: #ffffff; width: 36px; height: 36px;
+  border-radius: 9px; display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 1.05rem;
+}
+.main-nav { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.main-nav a {
+  text-decoration: none; color: var(--text); font-weight: 600; font-size: 0.94rem;
+  padding: 10px 14px; border-radius: 8px; min-height: 44px; display: inline-flex; align-items: center;
+}
+.main-nav a:hover, .main-nav a[aria-current="page"] {
+  background: var(--primary-light); color: var(--primary);
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 28px 20px; }
+.hero {
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+  color: #ffffff; border-radius: 16px; padding: 36px 28px; margin-bottom: 28px;
+  box-shadow: var(--shadow);
+}
+.hero-tag {
+  display: inline-block; background: rgba(255,255,255,0.16); color: #ffffff;
+  padding: 6px 12px; border-radius: 999px; font-size: 0.82rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;
+}
+.hero h1 { font-size: clamp(1.75rem, 3.2vw, 2.5rem); line-height: 1.2; margin-bottom: 12px; font-weight: 800; }
+.hero p { font-size: 1.06rem; color: #e2e8f0; max-width: 820px; }
+.grid-2 { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 24px; align-items: start; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+@media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); margin-bottom: 24px;
+}
+.card h2 { font-size: 1.38rem; margin-bottom: 12px; color: var(--text); font-weight: 800; }
+.card h3 { font-size: 1.14rem; margin: 16px 0 8px; color: var(--text); font-weight: 700; }
+.form-group { margin-bottom: 18px; }
+.form-label {
+  display: flex; justify-content: space-between; align-items: center;
+  font-weight: 700; font-size: 0.95rem; margin-bottom: 8px; color: var(--text);
+}
+.val-pill {
+  background: var(--primary-light); color: var(--primary);
+  padding: 2px 10px; border-radius: 999px; font-size: 0.85rem; font-weight: 800;
+}
+input[type="range"] {
+  width: 100%; height: 32px; cursor: pointer; accent-color: var(--primary);
+}
+select, input[type="number"], input[type="text"], input[type="email"], input[type="time"], textarea {
+  width: 100%; min-height: 46px; padding: 10px 14px; border: 1px solid #64748b;
+  border-radius: 8px; font-size: 0.98rem; background: #ffffff; color: var(--text);
+  font-family: inherit;
+}
+textarea { min-height: 96px; resize: vertical; }
+select:focus, input:focus, textarea:focus {
+  outline: 3px solid var(--primary-light); border-color: var(--primary);
+}
+.scale-hints {
+  display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;
+}
+.btn-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 46px; padding: 10px 20px; border-radius: 8px; font-weight: 700;
+  font-size: 0.96rem; cursor: pointer; border: none; text-decoration: none; transition: background 0.15s;
+}
+.btn-primary { background: var(--primary); color: #ffffff; }
+.btn-primary:hover { background: var(--primary-hover); color: #ffffff; }
+.btn-secondary { background: var(--surface-alt); color: var(--text); border: 1px solid #64748b; }
+.btn-secondary:hover { background: #e2e8f0; }
+.btn-accent { background: var(--accent); color: #ffffff; }
+.result-banner {
+  border-radius: 12px; padding: 18px; margin-bottom: 18px;
+  border-left: 6px solid var(--primary); background: var(--surface-alt);
+}
+.result-title { font-size: 1.3rem; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+.result-sub { font-size: 0.94rem; color: var(--text-muted); }
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); gap: 12px; margin: 16px 0; }
+.kpi-box {
+  background: var(--surface-alt); border: 1px solid var(--border);
+  border-radius: 10px; padding: 12px; text-align: center;
+}
+.kpi-num { font-size: 1.45rem; font-weight: 800; color: var(--primary); display: block; }
+.kpi-lbl { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
+.protocol-list { list-style: none; margin: 12px 0; }
+.protocol-list li {
+  padding: 10px 12px; background: var(--surface-alt); border-radius: 8px;
+  margin-bottom: 8px; font-size: 0.94rem; border-left: 4px solid var(--accent);
+}
+.data-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.93rem; }
+.data-table th, .data-table td {
+  border: 1px solid var(--border); padding: 10px 12px; text-align: left;
+}
+.data-table th { background: var(--surface-alt); font-weight: 700; color: var(--text); }
+.badge {
+  display: inline-block; padding: 4px 10px; border-radius: 999px;
+  font-size: 0.78rem; font-weight: 700; background: var(--primary-light); color: var(--primary);
+}
+.article-content p { margin-bottom: 16px; font-size: 1.02rem; color: var(--text); }
+.article-content ul, .article-content ol { margin: 0 0 18px 22px; }
+.article-content li { margin-bottom: 8px; }
+.callout {
+  background: var(--primary-light); border-left: 5px solid var(--primary);
+  padding: 16px 18px; border-radius: 8px; margin: 18px 0; color: #0f172a;
+}
+.callout-warn {
+  background: var(--warn-light); border-left: 5px solid var(--warn);
+  padding: 16px 18px; border-radius: 8px; margin: 18px 0; color: #0f172a;
+}
+.faq-item {
+  border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; background: var(--surface);
+}
+.faq-q { font-weight: 700; font-size: 1.02rem; color: var(--text); margin-bottom: 6px; }
+.faq-a { color: var(--text-muted); font-size: 0.95rem; }
+.site-footer {
+  background: #0f172a; color: #e2e8f0; padding: 44px 20px 28px; margin-top: 48px;
+}
+.footer-inner {
+  max-width: 1200px; margin: 0 auto; display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 28px;
+}
+.site-footer h3 { color: #ffffff; font-size: 1.05rem; margin-bottom: 12px; }
+.site-footer ul { list-style: none; }
+.site-footer li { margin-bottom: 6px; }
+.site-footer a {
+  color: #cbd5e1; text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; padding: 4px 0;
+}
+.site-footer a:hover { color: #ffffff; text-decoration: underline; }
+.footer-bottom {
+  max-width: 1200px; margin: 28px auto 0; padding-top: 20px;
+  border-top: 1px solid #334155; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+  font-size: 0.88rem; color: #cbd5e1;
+}
+.breadcrumb {
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 0.9rem;
+  margin-bottom: 18px; color: var(--text-muted);
+}
+.breadcrumb a { min-height: 44px; display: inline-flex; align-items: center; }
+</style>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "DenuModi", "url": "https://denumodi.github.io/", "description": "Interactive 2D Circumplex Mood Check, Cognitive Burnout Calculator, Circadian Energy Planner, and Affective Science Research Library."}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "DenuModi 2D Circumplex Mood Check & Emotional Energy Analyzer", "url": "https://denumodi.github.io/", "applicationCategory": "HealthApplication", "operatingSystem": "All", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "featureList": ["2D Circumplex Model of Affect (Valence x Arousal) interactive coordinate plotter", "5-axis affective radar chart (Valence, Energy, Clarity, Somatic Calm, Social Battery)", "Sleep debt, caffeine half-life, and unbroken screen time physiological adjustments", "Client-side journal sentiment and cognitive distortion lexical check", "Local browser mood log with CSV export"]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How often should I perform a structured mood check?", "acceptedAnswer": {"@type": "Answer", "text": "Checking in two to three times per day—typically 60 minutes after waking, mid-afternoon, and at the end of your workday—captures your circadian peak, post-prandial dip, and cumulative cognitive load."}}, {"@type": "Question", "name": "Is my mood check data uploaded to any cloud server?", "acceptedAnswer": {"@type": "Answer", "text": "No. DenuModi processes all slider values, lexical journal analysis, and historical logs 100% locally inside your web browser using JavaScript and localStorage."}}, {"@type": "Question", "name": "What is the difference between Emotional Valence and Arousal?", "acceptedAnswer": {"@type": "Answer", "text": "Valence measures how pleasant or unpleasant a feeling is, while Arousal measures the degree of physiological activation or energy accompanying that state."}}]}</script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="brand" aria-label="DenuModi Home">
+      <span class="brand-badge" aria-hidden="true">DM</span>
+      <span>DenuModi <small style="display:block;font-size:0.72rem;font-weight:600;color:#334155;">Affective &amp; Circadian Lab</small></span>
+    </a>
+    <nav class="main-nav" aria-label="Primary Navigation">
+      <a href="index.html" aria-current="page">Mood Check Tool</a><a href="burnout-load-calculator.html">Burnout Load</a><a href="circadian-mood-planner.html">Circadian Planner</a><a href="breathing-pacer-tool.html">Breathing Pacer</a><a href="emotion-wheel-tool.html">Emotion Wheel</a><a href="circumplex-model-of-affect-guide.html">Research Guides</a><a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+  <main id="main-content" class="container">
+    
+<section class="hero">
+  <span class="hero-tag">2D Circumplex Affective Telemetry &bull; 100% Client-Side</span>
+  <h1>Mood Check &amp; Emotional Energy Analyzer</h1>
+  <p>
+    Quantify your current mood state across Russell&rsquo;s 2D Circumplex Model of Affect (Valence &times; Physiological Arousal), cognitive clarity, somatic tension, and circadian sleep-caffeine load. Get an instant quadrant coordinate plot, 5-axis affective radar profile, and a targeted 20-minute autonomic reset protocol.
+  </p>
+</section>
+
+<div class="grid-2">
+  <section class="card" aria-labelledby="tool-form-heading">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:14px;">
+      <h2 id="tool-form-heading" style="margin:0;">1. Rate Your Current Affective Dimensions</h2>
+      <span class="badge">Live Telemetry</span>
+    </div>
+    <p style="font-size:0.92rem;color:var(--text-muted);margin-bottom:14px;">
+      Adjust the sliders below or load a sample scenario to map your real-time mood coordinates.
+    </p>
+    <div class="btn-row" style="margin-top:0;margin-bottom:18px;">
+      <button type="button" class="btn btn-secondary" onclick="applyMoodPreset(8.5, 7.8, 8.5, 8.0, 7.5, 7.5, '100', 1.5, 'optimal', 'deep', 'Feeling clear-headed, motivated, and making steady progress on complex problems.')">Preset: Peak Flow</button>
+      <button type="button" class="btn btn-secondary" onclick="applyMoodPreset(4.0, 3.0, 3.5, 5.5, 3.0, 5.5, '200', 4.5, 'mild', 'admin', 'Afternoon energy crash, heavy eyelids, struggling to sustain attention on routine tasks.')">Preset: Afternoon Slump</button>
+      <button type="button" class="btn btn-secondary" onclick="applyMoodPreset(3.5, 8.5, 4.0, 2.5, 3.5, 5.0, '300', 5.0, 'low', 'meeting', 'Racing thoughts, tight shoulders, too many open tabs and urgent deadlines all at once.')">Preset: Overstimulated</button>
+      <button type="button" class="btn btn-secondary" onclick="applyMoodPreset(8.0, 3.2, 7.2, 8.8, 6.5, 8.0, '0', 1.0, 'optimal', 'recovery', 'Quiet, grounded, relaxed breathing after finishing work for the day.')">Preset: Calm Reset</button>
+    </div>
+
+    <form id="mood-check-form" onsubmit="event.preventDefault(); saveMoodEntry();">
+      <div class="form-group">
+        <label class="form-label" for="valence-slider">
+          <span>Emotional Valence (Pleasantness)</span>
+          <span class="val-pill" id="valence-val">6.5 / 10</span>
+        </label>
+        <input type="range" id="valence-slider" min="1" max="10" step="0.5" value="6.5" oninput="updateMoodCheck()" />
+        <div class="scale-hints"><span>1 = Highly Unpleasant / Distressed</span><span>5.5 = Neutral</span><span>10 = Very Pleasant / Joyful</span></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="arousal-slider">
+          <span>Physiological Arousal (Energy &amp; Activation)</span>
+          <span class="val-pill" id="arousal-val">6.0 / 10</span>
+        </label>
+        <input type="range" id="arousal-slider" min="1" max="10" step="0.5" value="6.0" oninput="updateMoodCheck()" />
+        <div class="scale-hints"><span>1 = Sleepy / Sluggish</span><span>5.5 = Moderate Wakefulness</span><span>10 = High Alert / Wired</span></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="clarity-slider">
+          <span>Cognitive Focus &amp; Mental Clarity</span>
+          <span class="val-pill" id="clarity-val">6.5 / 10</span>
+        </label>
+        <input type="range" id="clarity-slider" min="1" max="10" step="0.5" value="6.5" oninput="updateMoodCheck()" />
+        <div class="scale-hints"><span>1 = Brain Fog / Scattered</span><span>5.5 = Average Focus</span><span>10 = Laser-Sharp Synthesis</span></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="calm-slider">
+          <span>Somatic Calm (Body &amp; Muscle Ease)</span>
+          <span class="val-pill" id="calm-val">6.0 / 10</span>
+        </label>
+        <input type="range" id="calm-slider" min="1" max="10" step="0.5" value="6.0" oninput="updateMoodCheck()" />
+        <div class="scale-hints"><span>1 = Jaw/Shoulder Tension &amp; Shallow Breath</span><span>10 = Deep Somatic Relaxation</span></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="social-slider">
+          <span>Social Battery &amp; Interpersonal Bandwidth</span>
+          <span class="val-pill" id="social-val">6.0 / 10</span>
+        </label>
+        <input type="range" id="social-slider" min="1" max="10" step="0.5" value="6.0" oninput="updateMoodCheck()" />
+        <div class="scale-hints"><span>1 = Need Solitude / Drained</span><span>10 = Energized for Collaboration</span></div>
+      </div>
+
+      <div class="grid-3" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px;">
+        <div class="form-group">
+          <label class="form-label" for="sleep-input">Sleep Last Night (Hours)</label>
+          <input type="number" id="sleep-input" min="0" max="14" step="0.5" value="7.0" oninput="updateMoodCheck()" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="caffeine-select">Caffeine (Last 6h)</label>
+          <select id="caffeine-select" onchange="updateMoodCheck()">
+            <option value="0">0 mg (None)</option>
+            <option value="100" selected>~100 mg (1 Cup Coffee / Tea)</option>
+            <option value="200">~200 mg (2 Cups / Double Shot)</option>
+            <option value="300">300+ mg (High Stimulant Load)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="screen-input">Unbroken Screen Time (h)</label>
+          <input type="number" id="screen-input" min="0" max="16" step="0.5" value="2.0" oninput="updateMoodCheck()" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="hydration-select">Hydration Status</label>
+          <select id="hydration-select" onchange="updateMoodCheck()">
+            <option value="optimal" selected>Well Hydrated (Clear/Pale)</option>
+            <option value="mild">Mild Thirst (No water in 2–3h)</option>
+            <option value="low">Dehydrated (Dry mouth / Headache)</option>
+          </select>
+        </div>
+        <div class="form-group" style="grid-column: 1 / -1;">
+          <label class="form-label" for="context-select">Current Primary Activity Context</label>
+          <select id="context-select" onchange="updateMoodCheck()">
+            <option value="deep" selected>Deep Analytical / Coding / Engineering Work</option>
+            <option value="creative">Creative Writing / Design / Brainstorming</option>
+            <option value="admin">Routine Admin / Email / Operations</option>
+            <option value="meeting">Meetings / Client Calls / Collaboration</option>
+            <option value="study">Academic Study / Memorization</option>
+            <option value="recovery">Rest / Post-Work Wind-Down</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="journal-note">
+          <span>Optional Mood Reflection Note (Lexical Sentiment &amp; Granularity Check)</span>
+        </label>
+        <textarea id="journal-note" placeholder="Write 1–2 sentences describing how you feel right now and what triggered it..." oninput="updateMoodCheck()">Feeling focused and steady after morning coffee, ready to tackle analytical tasks.</textarea>
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary">Save Check-In to Local Log</button>
+        <button type="button" class="btn btn-secondary" onclick="copyMoodSummary()">Copy Diagnostic Summary</button>
+        <button type="button" class="btn btn-secondary" onclick="exportMoodCSV()">Export CSV Log</button>
+      </div>
+      <p id="action-status" style="font-size:0.86rem;color:var(--accent);font-weight:700;margin-top:8px;" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <section class="card" aria-labelledby="telemetry-output-heading">
+    <h2 id="telemetry-output-heading">2. Live Circumplex Mood Diagnosis</h2>
+    <div class="result-banner" id="quadrant-banner">
+      <div class="result-title" id="quadrant-title">Quadrant I: High-Energy Positive (Engaged Flow)</div>
+      <div class="result-sub" id="quadrant-desc">Constructive activation with strong prefrontal focus and low autonomic friction.</div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-box">
+        <span class="kpi-num" id="kpi-stability">76 / 100</span>
+        <span class="kpi-lbl">Mood Composite</span>
+      </div>
+      <div class="kpi-box">
+        <span class="kpi-num" id="kpi-strain">Low (18%)</span>
+        <span class="kpi-lbl">Autonomic Strain</span>
+      </div>
+      <div class="kpi-box">
+        <span class="kpi-num" id="kpi-lexicon">Balanced</span>
+        <span class="kpi-lbl">Journal Affect</span>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:center;margin:14px 0;">
+      <div style="text-align:center;">
+        <div style="font-size:0.82rem;font-weight:700;margin-bottom:6px;color:var(--text-muted);">2D Circumplex Grid (Valence &times; Arousal)</div>
+        <svg id="circumplex-svg" viewBox="0 0 240 240" width="220" height="220" role="img" aria-label="2D Circumplex Mood Coordinate Grid" style="max-width:100%;height:auto;border:1px solid var(--border);border-radius:10px;background:#f8fafc;">
+          <rect x="20" y="20" width="100" height="100" fill="#fee2e2" opacity="0.45"/>
+          <rect x="120" y="20" width="100" height="100" fill="#dcfce7" opacity="0.55"/>
+          <rect x="20" y="120" width="100" height="100" fill="#e2e8f0" opacity="0.65"/>
+          <rect x="120" y="120" width="100" height="100" fill="#dbeafe" opacity="0.55"/>
+          <line x1="20" y1="120" x2="220" y2="120" stroke="#475569" stroke-width="1.5"/>
+          <line x1="120" y1="20" x2="120" y2="220" stroke="#475569" stroke-width="1.5"/>
+          <text x="170" y="36" font-size="9" font-weight="700" fill="#166534" text-anchor="middle">FLOW / ALERT</text>
+          <text x="70" y="36" font-size="9" font-weight="700" fill="#991b1b" text-anchor="middle">STRESSED / TENSE</text>
+          <text x="70" y="212" font-size="9" font-weight="700" fill="#334155" text-anchor="middle">DEPLETED / LOW</text>
+          <text x="170" y="212" font-size="9" font-weight="700" fill="#1e40af" text-anchor="middle">CALM / SERENE</text>
+          <text x="120" y="14" font-size="8" fill="#334155" text-anchor="middle">High Arousal (+)</text>
+          <text x="120" y="234" font-size="8" fill="#334155" text-anchor="middle">Low Arousal (-)</text>
+          <circle id="mood-dot-halo" cx="142" cy="98" r="14" fill="#1e40af" opacity="0.22"/>
+          <circle id="mood-dot" cx="142" cy="98" r="6.5" fill="#1e40af" stroke="#ffffff" stroke-width="2"/>
+        </svg>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:0.82rem;font-weight:700;margin-bottom:6px;color:var(--text-muted);">5-Axis Affective Radar</div>
+        <svg id="radar-svg" viewBox="0 0 240 240" width="220" height="220" role="img" aria-label="5-Axis Affective Radar Chart" style="max-width:100%;height:auto;border:1px solid var(--border);border-radius:10px;background:#f8fafc;">
+          <circle cx="120" cy="120" r="80" fill="none" stroke="#cbd5e1" stroke-width="1"/>
+          <circle cx="120" cy="120" r="53" fill="none" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="3,3"/>
+          <circle cx="120" cy="120" r="26" fill="none" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="3,3"/>
+          <line x1="120" y1="120" x2="120" y2="40" stroke="#cbd5e1" stroke-width="1"/>
+          <line x1="120" y1="120" x2="196" y2="95" stroke="#cbd5e1" stroke-width="1"/>
+          <line x1="120" y1="120" x2="167" y2="185" stroke="#cbd5e1" stroke-width="1"/>
+          <line x1="120" y1="120" x2="73" y2="185" stroke="#cbd5e1" stroke-width="1"/>
+          <line x1="120" y1="120" x2="44" y2="95" stroke="#cbd5e1" stroke-width="1"/>
+          <text x="120" y="28" font-size="9" font-weight="700" fill="#0f172a" text-anchor="middle">Valence</text>
+          <text x="208" y="96" font-size="9" font-weight="700" fill="#0f172a" text-anchor="middle">Energy</text>
+          <text x="178" y="202" font-size="9" font-weight="700" fill="#0f172a" text-anchor="middle">Clarity</text>
+          <text x="62" y="202" font-size="9" font-weight="700" fill="#0f172a" text-anchor="middle">Calm</text>
+          <text x="30" y="96" font-size="9" font-weight="700" fill="#0f172a" text-anchor="middle">Social</text>
+          <polygon id="radar-poly" points="120,68 165,105 150,162 92,158 75,105" fill="rgba(15, 118, 110, 0.28)" stroke="#0f766e" stroke-width="2.5"/>
+        </svg>
+      </div>
+    </div>
+
+    <h3>Targeted 20-Minute Reset &amp; Task Protocol</h3>
+    <ul class="protocol-list" id="protocol-list">
+      <li><strong>Task Alignment:</strong> High suitability for deep analytical problem-solving or structured writing for the next 60–90 minutes.</li>
+      <li><strong>Autonomic Pacing:</strong> Maintain nasal breathing; use 2 minutes of Coherent Breathing (5.5s inhale / 5.5s exhale) if switching tasks.</li>
+      <li><strong>Physiological Guardrail:</strong> Drink 250 ml water within 30 minutes and take a 60-second far-horizon visual break every 45 minutes.</li>
+    </ul>
+
+    <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+      <span style="font-size:0.88rem;font-weight:700;">Need rapid autonomic down-regulation?</span>
+      <a href="breathing-pacer-tool.html" class="btn btn-accent" style="min-height:44px;padding:8px 14px;font-size:0.86rem;">Open Live Breathing Pacer &rarr;</a>
+    </div>
+  </section>
+</div>
+
+<section class="card" aria-labelledby="history-heading">
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+    <h2 id="history-heading" style="margin:0;">3. Your Local Mood Check History (Browser Storage)</h2>
+    <button type="button" class="btn btn-secondary" onclick="clearMoodHistory()" style="min-height:44px;padding:6px 14px;font-size:0.85rem;">Clear Local Log</button>
+  </div>
+  <p style="font-size:0.9rem;color:var(--text-muted);margin:8px 0 12px;">
+    All check-ins are stored strictly inside your device&rsquo;s <code>localStorage</code>. No personal mood entries are transmitted to any external server.
+  </p>
+  <div style="overflow-x:auto;">
+    <table class="data-table" id="history-table">
+      <thead>
+        <tr>
+          <th>Timestamp</th>
+          <th>Quadrant State</th>
+          <th>Valence</th>
+          <th>Arousal</th>
+          <th>Clarity</th>
+          <th>Composite</th>
+          <th>Context</th>
+        </tr>
+      </thead>
+      <tbody id="history-tbody">
+        <tr><td colspan="7" style="text-align:center;color:var(--text-muted);">Click &ldquo;Save Check-In to Local Log&rdquo; above to record your first mood snapshot.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="card" aria-labelledby="suite-heading">
+  <h2 id="suite-heading">Complete DenuModi Affective &amp; Circadian Tool Suite</h2>
+  <p style="color:var(--text-muted);margin-bottom:16px;">
+    Explore specialized interactive instruments designed to measure occupational burnout load, circadian alertness peaks, autonomic breathing cadence, and granular emotional vocabulary.
+  </p>
+  <div class="grid-3">
+    <div style="border:1px solid var(--border);border-radius:10px;padding:18px;background:var(--surface-alt);">
+      <span class="badge">Stress &amp; Recovery</span>
+      <h3 style="margin-top:8px;"><a href="burnout-load-calculator.html">Cognitive Burnout &amp; Stress Load Calculator</a></h3>
+      <p style="font-size:0.92rem;color:var(--text-muted);">Quantify cumulative workload strain, sleep debt, and context-switching fatigue on a 0–100 clinical-style burnout index.</p>
+    </div>
+    <div style="border:1px solid var(--border);border-radius:10px;padding:18px;background:var(--surface-alt);">
+      <span class="badge">Chronobiology</span>
+      <h3 style="margin-top:8px;"><a href="circadian-mood-planner.html">Circadian Chronotype &amp; Peak Mood Planner</a></h3>
+      <p style="font-size:0.92rem;color:var(--text-muted);">Generate a custom 24-hour alertness and mood curve based on your wake time, sleep duration, and ultradian cycles.</p>
+    </div>
+    <div style="border:1px solid var(--border);border-radius:10px;padding:18px;background:var(--surface-alt);">
+      <span class="badge">Autonomic Reset</span>
+      <h3 style="margin-top:8px;"><a href="breathing-pacer-tool.html">Box Breathing &amp; HRV Resonance Pacer</a></h3>
+      <p style="font-size:0.92rem;color:var(--text-muted);">Visual SVG breathing pacer supporting Box (4-4-4-4), 4-7-8 Relaxing Sigh, and 5.5s HRV Coherent Resonance protocols.</p>
+    </div>
+    <div style="border:1px solid var(--border);border-radius:10px;padding:18px;background:var(--surface-alt);">
+      <span class="badge">Affective Lexicon</span>
+      <h3 style="margin-top:8px;"><a href="emotion-wheel-tool.html">72-State Emotion Granularity Wheel</a></h3>
+      <p style="font-size:0.92rem;color:var(--text-muted);">Translate vague feelings into precise affective vocabulary with somatic markers and cognitive reappraisal prompts.</p>
+    </div>
+  </div>
+</section>
+
+<article class="card article-content" aria-labelledby="methodology-heading">
+  <h2 id="methodology-heading">Scientific Methodology: How the 2D Circumplex Mood Check Works</h2>
+  <p>
+    Most casual mood trackers force human experience into a single one-dimensional scale from &ldquo;bad&rdquo; to &ldquo;good.&rdquo; In affective neuroscience and psychometrics, however, a single axis fails to distinguish between states that share the same pleasantness but differ dramatically in physiological activation. For example, feeling <em>serene</em> and feeling <em>exhilarated</em> are both positive mood states, yet they require completely different cognitive workflows. Similarly, <em>anxious overload</em> and <em>exhausted apathy</em> are both unpleasant, but an intervention that helps exhaustion (such as brisk movement or bright light exposure) can worsen acute anxiety.
+  </p>
+  <p>
+    The <strong>DenuModi Mood Check &amp; Emotional Energy Analyzer</strong> implements psychologist James A. Russell&rsquo;s landmark <strong>Circumplex Model of Affect (1980)</strong> combined with the <strong>PANAS (Positive and Negative Affect Schedule)</strong> and modern circadian sleep-wake homeostasis models. By evaluating five core internal sliders alongside four physiological modifiers (sleep duration, caffeine pharmacokinetics, unbroken screen exposure, and hydration status), the tool maps your current state into one of four actionable affective quadrants.
+  </p>
+
+  <h3>The Four Affective Quadrants Explained</h3>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Quadrant</th>
+        <th>Valence &amp; Arousal Coordinates</th>
+        <th>Representative Mood States</th>
+        <th>Optimal Cognitive &amp; Behavioral Strategy</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Quadrant I: High-Energy Positive</strong></td>
+        <td>Valence &ge; 5.5, Arousal &ge; 5.5</td>
+        <td>Flow, Alert, Inspired, Vigorous, Confident</td>
+        <td>Deploy on high-complexity analytical engineering, strategic decisions, or creative synthesis. Guard against over-caffeination.</td>
+      </tr>
+      <tr>
+        <td><strong>Quadrant II: High-Energy Negative</strong></td>
+        <td>Valence &lt; 5.5, Arousal &ge; 5.5</td>
+        <td>Tense, Overstimulated, Irritable, Frustrated, Jittery</td>
+        <td>Reduce sensory input, close open communication tabs, perform 3 minutes of extended-exhale breathing (4-7-8), and switch to single-threaded tasks.</td>
+      </tr>
+      <tr>
+        <td><strong>Quadrant III: Low-Energy Negative</strong></td>
+        <td>Valence &lt; 5.5, Arousal &lt; 5.5</td>
+        <td>Depleted, Sluggish, Brain-Fogged, Unmotivated, Fatigued</td>
+        <td>Address physiological deficits first: 300 ml water + electrolytes, 10-minute outdoor daylight walk, or a 20-minute non-sleep deep rest (NSDR) break.</td>
+      </tr>
+      <tr>
+        <td><strong>Quadrant IV: Low-Energy Positive</strong></td>
+        <td>Valence &ge; 5.5, Arousal &lt; 5.5</td>
+        <td>Calm, Serene, Grounded, Reflective, Content</td>
+        <td>Ideal for long-horizon planning, reading, documentation review, code refactoring, or restorative evening wind-down.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Why Sleep Debt, Caffeine, and Screen Duration Shift Your Baseline Mood</h3>
+  <p>
+    Self-reported mood scores do not exist in a vacuum; they are heavily modulated by biological homeostats. Research in chronobiology demonstrates two primary processes governing daytime mood stability: <strong>Process S (homeostatic sleep pressure)</strong>, driven by the gradual accumulation of extracellular adenosine in the basal forebrain, and <strong>Process C (circadian pacemaker signaling)</strong>, regulated by the suprachiasmatic nucleus (SCN).
+  </p>
+  <div class="callout">
+    <strong>Key Psychometric Insight:</strong> When sleep duration drops below 6.5 hours, functional connectivity between the ventromedial prefrontal cortex (vmPFC) and the amygdala decreases significantly, amplifying emotional reactivity to minor workplace friction by up to 60% while reducing working memory capacity.
+  </div>
+  <p>
+    Furthermore, consuming more than 200 mg of caffeine on top of high sleep debt blocks adenosine A1 and A2A receptors temporarily without clearing the underlying metabolic fatigue. Once caffeine plasma concentration begins its half-life decay (typically 4 to 6 hours post-ingestion), accumulated adenosine binds rapidly, triggering a steep afternoon drop in both emotional valence and cognitive clarity—a phenomenon known clinically as the <em>adenosine rebound crash</em>.
+  </p>
+
+  <h3>Evidence-Based Research Library on Mood &amp; Cognitive Energy</h3>
+  <div class="grid-3">
+    <div style="border:1px solid var(--border);border-radius:8px;padding:14px;">
+      <h4 style="margin-bottom:6px;"><a href="circumplex-model-of-affect-guide.html">The Circumplex Model of Affect</a></h4>
+      <p style="font-size:0.88rem;color:var(--text-muted);margin:0;">How valence and arousal coordinates outperform 1D mood scales in predicting focus and stress recovery.</p>
+    </div>
+    <div style="border:1px solid var(--border);border-radius:8px;padding:14px;">
+      <h4 style="margin-bottom:6px;"><a href="sleep-debt-mood-volatility-science.html">Sleep Debt &amp; Prefrontal-Amygdala Coupling</a></h4>
+      <p style="font-size:0.88rem;color:var(--text-muted);margin:0;">Quantifying how cumulative sleep restriction alters emotional regulation and threat perception.</p>
+    </div>
+    <div style="border:1px solid var(--border);border-radius:8px;padding:14px;">
+      <h4 style="margin-bottom:6px;"><a href="emotional-granularity-productivity.html">Emotional Granularity &amp; Stress Resilience</a></h4>
+      <p style="font-size:0.88rem;color:var(--text-muted);margin:0;">Why differentiating precise affective states reduces physiological cortisol spikes by over 30%.</p>
+    </div>
+    <div style="border:1px solid var(--border);border-radius:8px;padding:14px;">
+      <h4 style="margin-bottom:6px;"><a href="ultradian-rhythms-energy-dips.html">Ultradian Rhythms &amp; 90-Minute Cycles</a></h4>
+      <p style="font-size:0.88rem;color:var(--text-muted);margin:0;">Structuring deep work blocks around the Basic Rest-Activity Cycle (BRAC) to prevent mid-day mood crashes.</p>
+    </div>
+    <div style="border:1px solid var(--border);border-radius:8px;padding:14px;">
+      <h4 style="margin-bottom:6px;"><a href="caffeine-half-life-anxiety-curve.html">Caffeine Pharmacokinetics &amp; Anxiety Curves</a></h4>
+      <p style="font-size:0.88rem;color:var(--text-muted);margin:0;">Modeling CYP1A2 metabolism, adenosine rebound, and optimal stimulant timing for stable mood.</p>
+    </div>
+    <div style="border:1px solid var(--border);border-radius:8px;padding:14px;">
+      <h4 style="margin-bottom:6px;"><a href="digital-context-switching-fatigue.html">Attention Residue &amp; Context-Switching Fatigue</a></h4>
+      <p style="font-size:0.88rem;color:var(--text-muted);margin:0;">How rapid task switching degrades executive function and elevates subjective irritability.</p>
+    </div>
+    <div style="border:1px solid var(--border);border-radius:8px;padding:14px;">
+      <h4 style="margin-bottom:6px;"><a href="autonomic-breathing-hrv-regulation.html">Respiratory Sinus Arrhythmia &amp; HRV Pacing</a></h4>
+      <p style="font-size:0.88rem;color:var(--text-muted);margin:0;">The vagal nerve mechanics behind physiological sighs, box breathing, and resonance frequency breathing.</p>
+    </div>
+    <div style="border:1px solid var(--border);border-radius:8px;padding:14px;">
+      <h4 style="margin-bottom:6px;"><a href="chronotype-alignment-work-schedule.html">Chronotype Alignment &amp; Peak Mood Windows</a></h4>
+      <p style="font-size:0.88rem;color:var(--text-muted);margin:0;">Mapping early, intermediate, and late chronotypes to analytical and creative task performance.</p>
+    </div>
+    <div style="border:1px solid var(--border);border-radius:8px;padding:14px;">
+      <h4 style="margin-bottom:6px;"><a href="cognitive-reframing-journaling-methods.html">Structured Affective Journaling Protocols</a></h4>
+      <p style="font-size:0.88rem;color:var(--text-muted);margin:0;">Avoiding unproductive rumination through structured cognitive reappraisal and linguistic distancing.</p>
+    </div>
+    <div style="border:1px solid var(--border);border-radius:8px;padding:14px;">
+      <h4 style="margin-bottom:6px;"><a href="hydration-electrolytes-cognitive-mood.html">Subclinical Dehydration &amp; Mood Disturbance</a></h4>
+      <p style="font-size:0.88rem;color:var(--text-muted);margin:0;">How a 1.5% drop in body water alters plasma osmolality, perceived fatigue, and tension headaches.</p>
+    </div>
+    <div style="border:1px solid var(--border);border-radius:8px;padding:14px;">
+      <h4 style="margin-bottom:6px;"><a href="sunlight-lux-serotonin-circadian-anchor.html">Morning Lux Exposure &amp; Circadian Anchoring</a></h4>
+      <p style="font-size:0.88rem;color:var(--text-muted);margin:0;">Why 10,000 lux of outdoor morning light stabilizes daytime serotonin tone and evening melatonin onset.</p>
+    </div>
+    <div style="border:1px solid var(--border);border-radius:8px;padding:14px;">
+      <h4 style="margin-bottom:6px;"><a href="workplace-burnout-recovery-metrics.html">Occupational Burnout vs. Acute Fatigue</a></h4>
+      <p style="font-size:0.88rem;color:var(--text-muted);margin:0;">Distinguishing transient work exhaustion from chronic burnout using objective behavioral recovery metrics.</p>
+    </div>
+  </div>
+
+  <h3>Frequently Asked Questions (FAQ)</h3>
+  <div class="faq-item">
+    <div class="faq-q">1. How often should I perform a structured mood check?</div>
+    <div class="faq-a">Checking in two to three times per day—typically 60 minutes after waking, mid-afternoon (around 2:30 PM), and at the end of your workday—captures your circadian peak, post-prandial dip, and cumulative cognitive load without causing tracking fatigue.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">2. Is my mood check data uploaded to any cloud server?</div>
+    <div class="faq-a">No. DenuModi processes all slider values, lexical journal analysis, and historical logs 100% locally inside your web browser using JavaScript and <code>localStorage</code>. You can export your log as a CSV file or clear it permanently at any time.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">3. What is the difference between Emotional Valence and Arousal?</div>
+    <div class="faq-a">Valence measures how pleasant or unpleasant a feeling is (horizontal axis), while Arousal measures the degree of physiological activation, alertness, or autonomic energy accompanying that state (vertical axis). Combining both reveals whether a low mood is tense/overwhelmed or sluggish/depleted.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">4. Can this tool diagnose clinical depression or anxiety disorders?</div>
+    <div class="faq-a">No. DenuModi is an educational self-reflection, circadian energy, and workplace productivity utility. It is not a medical device or psychiatric diagnostic instrument. If you experience persistent distress, please consult a licensed healthcare professional.</div>
+  </div>
+</article>
+
+<script>
+function analyzeJournalLexicon(text) {
+  const posWords = ['focused','calm','steady','ready','clear','grateful','energized','motivated','happy','relaxed','productive','good','great','peaceful','inspired','confident'];
+  const negWords = ['tired','stressed','anxious','overwhelmed','exhausted','drained','frustrated','tense','foggy','sad','worried','irritable','stuck','burned','jittery'];
+  const distortWords = ['always','never','impossible','ruined','catastrophe','everything','nothing','hopeless','completely'];
+  const tokens = (text || '').toLowerCase().match(/[a-z]+/g) || [];
+  let p = 0, n = 0, d = 0;
+  tokens.forEach(w => {
+    if (posWords.includes(w)) p++;
+    if (negWords.includes(w)) n++;
+    if (distortWords.includes(w)) d++;
+  });
+  if (tokens.length === 0) return { label: 'Neutral', delta: 0, note: '' };
+  if (d > 0) return { label: 'All-or-Nothing Framing (' + d + ')', delta: -4, note: 'Detected absolute framing words in reflection note; try substituting specific time-bounded language.' };
+  if (p > n) return { label: 'Constructive (+' + p + ')', delta: 3, note: 'Constructive affective vocabulary detected in reflection note.' };
+  if (n > p) return { label: 'High-Strain (-' + n + ')', delta: -3, note: 'Strain markers noted in reflection; prioritize somatic down-regulation before complex tasks.' };
+  return { label: 'Balanced', delta: 1, note: '' };
+}
+
+function computeMoodTelemetry() {
+  const v = parseFloat(document.getElementById('valence-slider').value);
+  const a = parseFloat(document.getElementById('arousal-slider').value);
+  const c = parseFloat(document.getElementById('clarity-slider').value);
+  const calm = parseFloat(document.getElementById('calm-slider').value);
+  const soc = parseFloat(document.getElementById('social-slider').value);
+  const sleep = parseFloat(document.getElementById('sleep-input').value) || 7;
+  const caff = parseInt(document.getElementById('caffeine-select').value, 10) || 0;
+  const screen = parseFloat(document.getElementById('screen-input').value) || 0;
+  const hydr = document.getElementById('hydration-select').value;
+  const ctx = document.getElementById('context-select').value;
+  const note = document.getElementById('journal-note').value;
+
+  document.getElementById('valence-val').textContent = v.toFixed(1) + ' / 10';
+  document.getElementById('arousal-val').textContent = a.toFixed(1) + ' / 10';
+  document.getElementById('clarity-val').textContent = c.toFixed(1) + ' / 10';
+  document.getElementById('calm-val').textContent = calm.toFixed(1) + ' / 10';
+  document.getElementById('social-val').textContent = soc.toFixed(1) + ' / 10';
+
+  // Sleep & physiological modifiers
+  let sleepPenalty = 0;
+  if (sleep < 6.5) sleepPenalty = Math.round((6.5 - sleep) * 4.5);
+  let screenPenalty = screen > 2.5 ? Math.round((screen - 2.5) * 2.5) : 0;
+  let hydrPenalty = hydr === 'low' ? 8 : (hydr === 'mild' ? 3 : 0);
+  let caffStrain = (caff >= 200 && calm < 5.5) ? 6 : 0;
+
+  const lex = analyzeJournalLexicon(note);
+  let rawScore = ((v * 2.4) + (c * 2.2) + (calm * 2.0) + (soc * 1.2) + (Math.min(a, 8.0) * 1.2)) / 9.0 * 10;
+  let composite = Math.max(8, Math.min(99, Math.round(rawScore - sleepPenalty - screenPenalty - hydrPenalty - caffStrain + lex.delta)));
+
+  let strainPct = Math.max(5, Math.min(96, Math.round(((10 - calm) * 5.5) + (a > 6.5 && v < 5.5 ? (a - 5) * 7 : 0) + sleepPenalty + screenPenalty + hydrPenalty + caffStrain)));
+  let strainLabel = strainPct < 30 ? 'Low (' + strainPct + '%)' : (strainPct < 60 ? 'Moderate (' + strainPct + '%)' : 'Elevated (' + strainPct + '%)');
+
+  let quadTitle = '', quadDesc = '', borderCol = '#1e40af', dotCol = '#1e40af';
+  let protocols = [];
+
+  if (v >= 5.5 && a >= 5.5) {
+    quadTitle = 'Quadrant I: High-Energy Positive (Engaged Flow)';
+    quadDesc = 'High pleasantness paired with strong physiological activation. Optimal window for complex cognitive synthesis.';
+    borderCol = '#15803d'; dotCol = '#15803d';
+    protocols.push('<li><strong>Task Alignment:</strong> Channel this window into high-leverage analytical problem-solving, architecture design, or creative writing for the next 60–90 minutes.</li>');
+    protocols.push('<li><strong>Stimulant Guardrail:</strong> Avoid additional caffeine right now so you do not overshoot into sympathetic jitteriness.</li>');
+  } else if (v < 5.5 && a >= 5.5) {
+    quadTitle = 'Quadrant II: High-Energy Negative (Sympathetic Overload / Tense)';
+    quadDesc = 'Elevated physiological arousal with low pleasantness indicates autonomic friction, time pressure, or sensory overload.';
+    borderCol = '#b91c1c'; dotCol = '#b91c1c';
+    protocols.push('<li><strong>Immediate Down-Regulation:</strong> Perform 6 cycles of Physiological Sighs or 4-7-8 breathing (long slow exhales activate the vagus nerve within 90 seconds).</li>');
+    protocols.push('<li><strong>Cognitive Triage:</strong> Close all non-essential browser tabs and mute notifications for 30 minutes; pick one single-threaded task.</li>');
+  } else if (v < 5.5 && a < 5.5) {
+    quadTitle = 'Quadrant III: Low-Energy Negative (Depleted / Cognitive Fatigue)';
+    quadDesc = 'Low activation and low pleasantness point to homeostatic sleep pressure, glucose/hydration dip, or ultradian trough.';
+    borderCol = '#b45309'; dotCol = '#b45309';
+    protocols.push('<li><strong>Biological Reset:</strong> Step away from screens for 12–15 minutes, drink 300 ml of water, and get natural daylight exposure or gentle movement.</li>');
+    protocols.push('<li><strong>Workload Adjustment:</strong> Defer high-stakes decisions or complex debugging; batch low-friction administrative cleanup instead.</li>');
+  } else {
+    quadTitle = 'Quadrant IV: Low-Energy Positive (Serene / Restorative Calm)';
+    quadDesc = 'High pleasantness with relaxed parasympathetic tone. Ideal for reflective synthesis, reading, or low-pressure planning.';
+    borderCol = '#1e40af'; dotCol = '#1e40af';
+    protocols.push('<li><strong>Task Alignment:</strong> Well suited for long-horizon strategy, documentation, learning, or structured evening wind-down.</li>');
+    protocols.push('<li><strong>Rhythm Maintenance:</strong> Keep lighting warm and avoid high-intensity multitasking to preserve parasympathetic balance.</li>');
+  }
+
+  if (sleep < 6.5) {
+    protocols.push('<li><strong>Sleep Debt Alert (' + sleep + 'h):</strong> Prefrontal-amygdala regulation is reduced today. Schedule a 15-minute Non-Sleep Deep Rest (NSDR) break before 3:00 PM.</li>');
+  } else if (screen >= 3.0) {
+    protocols.push('<li><strong>Visual Fatigue Guardrail (' + screen + 'h unbroken screen time):</strong> Look at a distant object 20+ feet away for 60 seconds to relax ciliary muscle spasm.</li>');
+  } else if (hydr !== 'optimal') {
+    protocols.push('<li><strong>Hydration Deficit:</strong> Even 1.5% fluid loss elevates perceived task difficulty and tension—drink 300 ml water now.</li>');
+  } else {
+    protocols.push('<li><strong>Ultradian Pacing:</strong> Work in 75-to-90-minute focused intervals followed by a 10-minute screen-free recovery buffer.</li>');
+  }
+
+  document.getElementById('quadrant-title').textContent = quadTitle;
+  document.getElementById('quadrant-desc').textContent = quadDesc;
+  document.getElementById('quadrant-banner').style.borderLeftColor = borderCol;
+  document.getElementById('kpi-stability').textContent = composite + ' / 100';
+  document.getElementById('kpi-strain').textContent = strainLabel;
+  document.getElementById('kpi-lexicon').textContent = lex.label;
+  document.getElementById('protocol-list').innerHTML = protocols.join('');
+
+  // Update 2D Circumplex SVG coordinates (20..220)
+  const cx = 20 + ((v - 1) / 9) * 200;
+  const cy = 220 - ((a - 1) / 9) * 200;
+  const dot = document.getElementById('mood-dot');
+  const halo = document.getElementById('mood-dot-halo');
+  dot.setAttribute('cx', cx.toFixed(1));
+  dot.setAttribute('cy', cy.toFixed(1));
+  dot.setAttribute('fill', dotCol);
+  halo.setAttribute('cx', cx.toFixed(1));
+  halo.setAttribute('cy', cy.toFixed(1));
+  halo.setAttribute('fill', dotCol);
+
+  // Update 5-Axis Radar Polygon
+  const vals = [v, a, c, calm, soc];
+  const angles = [-90, -18, 54, 126, 198];
+  const pts = vals.map((val, idx) => {
+    const r = (val / 10) * 80;
+    const rad = angles[idx] * Math.PI / 180;
+    const px = 120 + r * Math.cos(rad);
+    const py = 120 + r * Math.sin(rad);
+    return px.toFixed(1) + ',' + py.toFixed(1);
+  }).join(' ');
+  document.getElementById('radar-poly').setAttribute('points', pts);
+
+  return {
+    timestamp: new Date().toLocaleString(),
+    quadrant: quadTitle.replace('Quadrant ', 'Q'),
+    valence: v,
+    arousal: a,
+    clarity: c,
+    composite: composite,
+    context: ctx
+  };
+}
+
+function updateMoodCheck() {
+  computeMoodTelemetry();
+}
+
+function applyMoodPreset(v, a, c, calm, soc, sleep, caff, screen, hydr, ctx, note) {
+  document.getElementById('valence-slider').value = v;
+  document.getElementById('arousal-slider').value = a;
+  document.getElementById('clarity-slider').value = c;
+  document.getElementById('calm-slider').value = calm;
+  document.getElementById('social-slider').value = soc;
+  document.getElementById('sleep-input').value = sleep;
+  document.getElementById('caffeine-select').value = caff;
+  document.getElementById('screen-input').value = screen;
+  document.getElementById('hydration-select').value = hydr;
+  document.getElementById('context-select').value = ctx;
+  document.getElementById('journal-note').value = note;
+  updateMoodCheck();
+  document.getElementById('action-status').textContent = 'Loaded scenario preset into live telemetry.';
+}
+
+function renderMoodHistory() {
+  const tbody = document.getElementById('history-tbody');
+  let list = [];
+  try { list = JSON.parse(localStorage.getItem('denumodi_mood_log') || '[]'); } catch (e) {}
+  if (!list.length) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);">No local mood entries saved yet. Click "Save Check-In to Local Log" above.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = list.slice().reverse().map(item => (
+    '<tr>' +
+      '<td>' + item.timestamp + '</td>' +
+      '<td><strong>' + item.quadrant + '</strong></td>' +
+      '<td>' + item.valence + '</td>' +
+      '<td>' + item.arousal + '</td>' +
+      '<td>' + item.clarity + '</td>' +
+      '<td><span class="badge">' + item.composite + '/100</span></td>' +
+      '<td>' + item.context + '</td>' +
+    '</tr>'
+  )).join('');
+}
+
+function saveMoodEntry() {
+  const entry = computeMoodTelemetry();
+  let list = [];
+  try { list = JSON.parse(localStorage.getItem('denumodi_mood_log') || '[]'); } catch (e) {}
+  list.push(entry);
+  if (list.length > 30) list = list.slice(-30);
+  try { localStorage.setItem('denumodi_mood_log', JSON.stringify(list)); } catch (e) {}
+  renderMoodHistory();
+  document.getElementById('action-status').textContent = 'Saved mood check-in to browser localStorage (' + entry.timestamp + ').';
+}
+
+function copyMoodSummary() {
+  const e = computeMoodTelemetry();
+  const txt = 'DenuModi Mood Telemetry (' + e.timestamp + ')\nState: ' + e.quadrant + '\nValence: ' + e.valence + '/10 | Arousal: ' + e.arousal + '/10 | Clarity: ' + e.clarity + '/10\nComposite Stability Score: ' + e.composite + '/100';
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(txt);
+  }
+  document.getElementById('action-status').textContent = 'Copied diagnostic summary to clipboard!';
+}
+
+function exportMoodCSV() {
+  let list = [];
+  try { list = JSON.parse(localStorage.getItem('denumodi_mood_log') || '[]'); } catch (e) {}
+  if (!list.length) {
+    list.push(computeMoodTelemetry());
+  }
+  const rows = [['Timestamp','Quadrant','Valence','Arousal','Clarity','CompositeScore','Context']];
+  list.forEach(r => rows.push([r.timestamp, r.quadrant, r.valence, r.arousal, r.clarity, r.composite, r.context]));
+  const csv = rows.map(r => r.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'denumodi-mood-log.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  document.getElementById('action-status').textContent = 'Exported mood log CSV (' + list.length + ' entries).';
+}
+
+function clearMoodHistory() {
+  try { localStorage.removeItem('denumodi_mood_log'); } catch (e) {}
+  renderMoodHistory();
+  document.getElementById('action-status').textContent = 'Cleared local mood log.';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  updateMoodCheck();
+  renderMoodHistory();
+});
+</script>
+
+  </main>
+  <footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <h3>DenuModi Mood &amp; Energy Lab</h3>
+      <p style="font-size:0.9rem;color:#cbd5e1;margin-bottom:12px;">
+        Interactive affective science utilities built on Russell's Circumplex Model of Affect (Valence &times; Arousal), PANAS dimensions, and circadian chronobiology. All calculations run 100% locally in your browser.
+      </p>
+      <p style="font-size:0.82rem;color:#94a3b8;">
+        Educational &amp; self-reflection utility only. Not a clinical or medical diagnostic instrument.
+      </p>
+    </div>
+    <div>
+      <h3>Interactive Mood Tools</h3>
+      <ul>
+        <li><a href="index.html">2D Mood &amp; Affect Check</a></li>
+        <li><a href="burnout-load-calculator.html">Cognitive Burnout Calculator</a></li>
+        <li><a href="circadian-mood-planner.html">Circadian Peak Mood Planner</a></li>
+        <li><a href="breathing-pacer-tool.html">Autonomic Breathing Pacer</a></li>
+        <li><a href="emotion-wheel-tool.html">72-State Emotion Granularity Wheel</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Affective Science Guides</h3>
+      <ul>
+        <li><a href="circumplex-model-of-affect-guide.html">Circumplex Model of Affect</a></li>
+        <li><a href="sleep-debt-mood-volatility-science.html">Sleep Debt &amp; Mood Volatility</a></li>
+        <li><a href="emotional-granularity-productivity.html">Emotional Granularity Science</a></li>
+        <li><a href="ultradian-rhythms-energy-dips.html">Ultradian 90-Minute Cycles</a></li>
+        <li><a href="caffeine-half-life-anxiety-curve.html">Caffeine Half-Life &amp; Mood</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Governance &amp; Trust</h3>
+      <ul>
+        <li><a href="about.html">About DenuModi</a></li>
+        <li><a href="editorial-policy.html">Editorial &amp; Research Policy</a></li>
+        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="disclaimer.html">Wellness Disclaimer</a></li>
+        <li><a href="contact.html">Contact &amp; Feedback</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 DenuModi (denumodi.github.io). All rights reserved.</span>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;">
+      <a href="sitemap.xml" style="color:#cbd5e1;min-height:44px;display:inline-flex;align-items:center;">XML Sitemap</a>
+      <a href="llms.txt" style="color:#cbd5e1;min-height:44px;display:inline-flex;align-items:center;">LLMs.txt</a>
+      <a href="#top" style="color:#ffffff;font-weight:700;min-height:44px;display:inline-flex;align-items:center;">&uarr; Back to Top</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

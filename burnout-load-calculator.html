@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en" id="top">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cognitive Burnout & Work Stress Load Calculator — DenuModi</title>
+  <meta name="description" content="Calculate your occupational burnout load index (0-100), 14-day sleep debt, and context-switching fatigue with an interactive recovery horizon model." />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href="https://denumodi.github.io/burnout-load-calculator.html" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="DenuModi" />
+  <meta property="og:title" content="Cognitive Burnout & Work Stress Load Calculator — DenuModi" />
+  <meta property="og:description" content="Calculate your occupational burnout load index (0-100), 14-day sleep debt, and context-switching fatigue with an interactive recovery horizon model." />
+  <meta property="og:url" content="https://denumodi.github.io/burnout-load-calculator.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Cognitive Burnout & Work Stress Load Calculator — DenuModi" />
+  <meta name="twitter:description" content="Calculate your occupational burnout load index (0-100), 14-day sleep debt, and context-switching fatigue with an interactive recovery horizon model." />
+  <style>
+:root {
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-alt: #f1f5f9;
+  --text: #0f172a;
+  --text-muted: #334155;
+  --border: #cbd5e1;
+  --primary: #1e40af;
+  --primary-hover: #1e3a8a;
+  --primary-light: #dbeafe;
+  --accent: #0f766e;
+  --accent-light: #ccfbf1;
+  --warn: #b45309;
+  --warn-light: #fef3c7;
+  --danger: #b91c1c;
+  --danger-light: #fee2e2;
+  --radius: 12px;
+  --shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--primary); text-decoration: underline; text-underline-offset: 3px; font-weight: 500; }
+a:hover { color: var(--primary-hover); }
+.skip-link {
+  position: absolute; top: -60px; left: 12px; background: var(--primary); color: #fff;
+  padding: 10px 16px; border-radius: 6px; z-index: 9999; text-decoration: none; font-weight: 600;
+}
+.skip-link:focus { top: 12px; }
+.site-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 100;
+}
+.header-inner {
+  max-width: 1200px; margin: 0 auto; padding: 12px 20px;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+}
+.brand {
+  display: inline-flex; align-items: center; gap: 10px;
+  text-decoration: none; color: var(--text); font-weight: 800; font-size: 1.25rem; letter-spacing: -0.02em;
+  min-height: 44px;
+}
+.brand-badge {
+  background: var(--primary); color: #ffffff; width: 36px; height: 36px;
+  border-radius: 9px; display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 1.05rem;
+}
+.main-nav { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.main-nav a {
+  text-decoration: none; color: var(--text); font-weight: 600; font-size: 0.94rem;
+  padding: 10px 14px; border-radius: 8px; min-height: 44px; display: inline-flex; align-items: center;
+}
+.main-nav a:hover, .main-nav a[aria-current="page"] {
+  background: var(--primary-light); color: var(--primary);
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 28px 20px; }
+.hero {
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+  color: #ffffff; border-radius: 16px; padding: 36px 28px; margin-bottom: 28px;
+  box-shadow: var(--shadow);
+}
+.hero-tag {
+  display: inline-block; background: rgba(255,255,255,0.16); color: #ffffff;
+  padding: 6px 12px; border-radius: 999px; font-size: 0.82rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;
+}
+.hero h1 { font-size: clamp(1.75rem, 3.2vw, 2.5rem); line-height: 1.2; margin-bottom: 12px; font-weight: 800; }
+.hero p { font-size: 1.06rem; color: #e2e8f0; max-width: 820px; }
+.grid-2 { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 24px; align-items: start; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+@media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); margin-bottom: 24px;
+}
+.card h2 { font-size: 1.38rem; margin-bottom: 12px; color: var(--text); font-weight: 800; }
+.card h3 { font-size: 1.14rem; margin: 16px 0 8px; color: var(--text); font-weight: 700; }
+.form-group { margin-bottom: 18px; }
+.form-label {
+  display: flex; justify-content: space-between; align-items: center;
+  font-weight: 700; font-size: 0.95rem; margin-bottom: 8px; color: var(--text);
+}
+.val-pill {
+  background: var(--primary-light); color: var(--primary);
+  padding: 2px 10px; border-radius: 999px; font-size: 0.85rem; font-weight: 800;
+}
+input[type="range"] {
+  width: 100%; height: 32px; cursor: pointer; accent-color: var(--primary);
+}
+select, input[type="number"], input[type="text"], input[type="email"], input[type="time"], textarea {
+  width: 100%; min-height: 46px; padding: 10px 14px; border: 1px solid #64748b;
+  border-radius: 8px; font-size: 0.98rem; background: #ffffff; color: var(--text);
+  font-family: inherit;
+}
+textarea { min-height: 96px; resize: vertical; }
+select:focus, input:focus, textarea:focus {
+  outline: 3px solid var(--primary-light); border-color: var(--primary);
+}
+.scale-hints {
+  display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;
+}
+.btn-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 46px; padding: 10px 20px; border-radius: 8px; font-weight: 700;
+  font-size: 0.96rem; cursor: pointer; border: none; text-decoration: none; transition: background 0.15s;
+}
+.btn-primary { background: var(--primary); color: #ffffff; }
+.btn-primary:hover { background: var(--primary-hover); color: #ffffff; }
+.btn-secondary { background: var(--surface-alt); color: var(--text); border: 1px solid #64748b; }
+.btn-secondary:hover { background: #e2e8f0; }
+.btn-accent { background: var(--accent); color: #ffffff; }
+.result-banner {
+  border-radius: 12px; padding: 18px; margin-bottom: 18px;
+  border-left: 6px solid var(--primary); background: var(--surface-alt);
+}
+.result-title { font-size: 1.3rem; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+.result-sub { font-size: 0.94rem; color: var(--text-muted); }
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); gap: 12px; margin: 16px 0; }
+.kpi-box {
+  background: var(--surface-alt); border: 1px solid var(--border);
+  border-radius: 10px; padding: 12px; text-align: center;
+}
+.kpi-num { font-size: 1.45rem; font-weight: 800; color: var(--primary); display: block; }
+.kpi-lbl { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
+.protocol-list { list-style: none; margin: 12px 0; }
+.protocol-list li {
+  padding: 10px 12px; background: var(--surface-alt); border-radius: 8px;
+  margin-bottom: 8px; font-size: 0.94rem; border-left: 4px solid var(--accent);
+}
+.data-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.93rem; }
+.data-table th, .data-table td {
+  border: 1px solid var(--border); padding: 10px 12px; text-align: left;
+}
+.data-table th { background: var(--surface-alt); font-weight: 700; color: var(--text); }
+.badge {
+  display: inline-block; padding: 4px 10px; border-radius: 999px;
+  font-size: 0.78rem; font-weight: 700; background: var(--primary-light); color: var(--primary);
+}
+.article-content p { margin-bottom: 16px; font-size: 1.02rem; color: var(--text); }
+.article-content ul, .article-content ol { margin: 0 0 18px 22px; }
+.article-content li { margin-bottom: 8px; }
+.callout {
+  background: var(--primary-light); border-left: 5px solid var(--primary);
+  padding: 16px 18px; border-radius: 8px; margin: 18px 0; color: #0f172a;
+}
+.callout-warn {
+  background: var(--warn-light); border-left: 5px solid var(--warn);
+  padding: 16px 18px; border-radius: 8px; margin: 18px 0; color: #0f172a;
+}
+.faq-item {
+  border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; background: var(--surface);
+}
+.faq-q { font-weight: 700; font-size: 1.02rem; color: var(--text); margin-bottom: 6px; }
+.faq-a { color: var(--text-muted); font-size: 0.95rem; }
+.site-footer {
+  background: #0f172a; color: #e2e8f0; padding: 44px 20px 28px; margin-top: 48px;
+}
+.footer-inner {
+  max-width: 1200px; margin: 0 auto; display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 28px;
+}
+.site-footer h3 { color: #ffffff; font-size: 1.05rem; margin-bottom: 12px; }
+.site-footer ul { list-style: none; }
+.site-footer li { margin-bottom: 6px; }
+.site-footer a {
+  color: #cbd5e1; text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; padding: 4px 0;
+}
+.site-footer a:hover { color: #ffffff; text-decoration: underline; }
+.footer-bottom {
+  max-width: 1200px; margin: 28px auto 0; padding-top: 20px;
+  border-top: 1px solid #334155; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+  font-size: 0.88rem; color: #cbd5e1;
+}
+.breadcrumb {
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 0.9rem;
+  margin-bottom: 18px; color: var(--text-muted);
+}
+.breadcrumb a { min-height: 44px; display: inline-flex; align-items: center; }
+</style>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "DenuModi Cognitive Burnout & Stress Load Calculator", "url": "https://denumodi.github.io/burnout-load-calculator.html", "applicationCategory": "HealthApplication", "operatingSystem": "All", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}</script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="brand" aria-label="DenuModi Home">
+      <span class="brand-badge" aria-hidden="true">DM</span>
+      <span>DenuModi <small style="display:block;font-size:0.72rem;font-weight:600;color:#334155;">Affective &amp; Circadian Lab</small></span>
+    </a>
+    <nav class="main-nav" aria-label="Primary Navigation">
+      <a href="index.html">Mood Check Tool</a><a href="burnout-load-calculator.html" aria-current="page">Burnout Load</a><a href="circadian-mood-planner.html">Circadian Planner</a><a href="breathing-pacer-tool.html">Breathing Pacer</a><a href="emotion-wheel-tool.html">Emotion Wheel</a><a href="circumplex-model-of-affect-guide.html">Research Guides</a><a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+  <main id="main-content" class="container">
+    
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="index.html">Home</a> <span>/</span> <span>Cognitive Burnout &amp; Stress Load Calculator</span>
+</nav>
+
+<section class="hero">
+  <span class="hero-tag">Occupational Psychometrics &bull; Recovery Modeling</span>
+  <h1>Cognitive Burnout &amp; Work Stress Load Calculator</h1>
+  <p>
+    Evaluate cumulative occupational strain across three core dimensions—Emotional Exhaustion, Cognitive Context-Switching Load, and Physiological Recovery Deficit. Calculate your Burnout Load Index (0–100) and receive an evidence-based recovery timeline.
+  </p>
+</section>
+
+<div class="grid-2">
+  <section class="card" aria-labelledby="burnout-form-title">
+    <h2 id="burnout-form-title">1. Enter Your Weekly Work &amp; Recovery Parameters</h2>
+    <form id="burnout-form" onsubmit="event.preventDefault(); calcBurnoutLoad();">
+      <div class="form-group">
+        <label class="form-label" for="bo-hours">Total Weekly Work / Study Hours <span class="val-pill" id="bo-hours-val">48 h/wk</span></label>
+        <input type="range" id="bo-hours" min="20" max="85" step="1" value="48" oninput="calcBurnoutLoad()" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="bo-switches">Daily Context Switches / Interruptions <span class="val-pill" id="bo-switches-val">6 / 10</span></label>
+        <input type="range" id="bo-switches" min="1" max="10" step="1" value="6" oninput="calcBurnoutLoad()" />
+        <div class="scale-hints"><span>1 = Deep Unbroken Blocks</span><span>10 = Constant Slack/Email/Call Pings</span></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="bo-exhaust">End-of-Day Emotional Exhaustion <span class="val-pill" id="bo-exhaust-val">6 / 10</span></label>
+        <input type="range" id="bo-exhaust" min="1" max="10" step="1" value="6" oninput="calcBurnoutLoad()" />
+        <div class="scale-hints"><span>1 = Fresh After Work</span><span>10 = Completely Hollowed Out</span></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="bo-cynicism">Task Detachment / Cynicism Level <span class="val-pill" id="bo-cynicism-val">4 / 10</span></label>
+        <input type="range" id="bo-cynicism" min="1" max="10" step="1" value="4" oninput="calcBurnoutLoad()" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="bo-sleep">Average Nightly Sleep (Last 14 Days) <span class="val-pill" id="bo-sleep-val">6.5 h</span></label>
+        <input type="range" id="bo-sleep" min="4" max="9.5" step="0.5" value="6.5" oninput="calcBurnoutLoad()" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="bo-offdays">True Screen-Free Off-Days in Last 30 Days</label>
+        <select id="bo-offdays" onchange="calcBurnoutLoad()">
+          <option value="0">0 Days (Worked every weekend)</option>
+          <option value="2" selected>1–2 Days</option>
+          <option value="4">3–5 Days</option>
+          <option value="8">6+ Days (Regular full weekends off)</option>
+        </select>
+      </div>
+    </form>
+  </section>
+
+  <section class="card" aria-labelledby="burnout-res-title">
+    <h2 id="burnout-res-title">2. Burnout Load Index &amp; Recovery Horizon</h2>
+    <div class="result-banner" id="bo-banner">
+      <div class="result-title" id="bo-zone">Moderate Cumulative Strain (54 / 100)</div>
+      <div class="result-sub" id="bo-sub">Elevated attention residue and sleep debt require deliberate boundary restructuring.</div>
+    </div>
+
+    <div style="text-align:center;margin:16px 0;">
+      <svg viewBox="0 0 280 150" width="280" height="150" role="img" aria-label="Burnout Load Gauge" style="max-width:100%;height:auto;">
+        <path d="M 30 130 A 110 110 0 0 1 250 130" fill="none" stroke="#e2e8f0" stroke-width="22" stroke-linecap="round"/>
+        <path id="bo-arc" d="M 30 130 A 110 110 0 0 1 160 25" fill="none" stroke="#b45309" stroke-width="22" stroke-linecap="round"/>
+        <text id="bo-score-txt" x="140" y="105" font-size="30" font-weight="800" fill="#0f172a" text-anchor="middle">54 / 100</text>
+        <text x="140" y="130" font-size="11" font-weight="700" fill="#334155" text-anchor="middle">BURNOUT LOAD INDEX</text>
+      </svg>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-box">
+        <span class="kpi-num" id="bo-rec-days">5–7 Days</span>
+        <span class="kpi-lbl">Est. Recovery Buffer</span>
+      </div>
+      <div class="kpi-box">
+        <span class="kpi-num" id="bo-debt-val">10.5 h</span>
+        <span class="kpi-lbl">14-Day Sleep Debt</span>
+      </div>
+    </div>
+
+    <h3>Recommended Workload Triage Protocol</h3>
+    <ul class="protocol-list" id="bo-protocols">
+      <li>Cap synchronous communication to two 45-minute windows per day to eliminate context-switching residue.</li>
+      <li>Enforce a strict digital sunset 90 minutes before sleep to restore slow-wave recovery.</li>
+    </ul>
+  </section>
+</div>
+
+<article class="card article-content">
+  <h2>Understanding Occupational Burnout vs. Transient Fatigue</h2>
+  <p>
+    In organizational psychology, occupational burnout (as formalized by Christina Maslach&rsquo;s tri-factor framework) is distinct from ordinary end-of-day tiredness. Acute fatigue resolves after a single night of restorative sleep or a quiet weekend. Cumulative burnout, by contrast, develops when high cognitive load and frequent task interruptions outpace physiological recovery over multiple consecutive weeks, producing three measurable shifts: chronic emotional exhaustion, psychological detachment from work meaning, and reduced perceived efficacy.
+  </p>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Burnout Index Range</th>
+        <th>Risk Classification</th>
+        <th>Primary Physiological Marker</th>
+        <th>Minimum Recovery Intervention</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>0 – 34</strong></td>
+        <td>Sustainable Load</td>
+        <td>Intact heart-rate variability (HRV) and rapid evening cortisol clearance</td>
+        <td>Maintain regular 90-minute ultradian breaks and 1–2 weekly rest days</td>
+      </tr>
+      <tr>
+        <td><strong>35 – 64</strong></td>
+        <td>Moderate Cumulative Strain</td>
+        <td>Afternoon brain fog, elevated attention residue, mild sleep onset latency</td>
+        <td>Eliminate weekend work, audit meeting load by 30%, add 45 min nightly sleep</td>
+      </tr>
+      <tr>
+        <td><strong>65 – 100</strong></td>
+        <td>High Burnout Overload</td>
+        <td>Persistent exhaustion upon waking, blunted motivation, somatic tension</td>
+        <td>Immediate workload reduction, multi-day disconnected rest, professional support</td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+
+<script>
+function calcBurnoutLoad() {
+  const hrs = parseFloat(document.getElementById('bo-hours').value);
+  const sw = parseFloat(document.getElementById('bo-switches').value);
+  const ex = parseFloat(document.getElementById('bo-exhaust').value);
+  const cyn = parseFloat(document.getElementById('bo-cynicism').value);
+  const slp = parseFloat(document.getElementById('bo-sleep').value);
+  const off = parseInt(document.getElementById('bo-offdays').value, 10);
+
+  document.getElementById('bo-hours-val').textContent = hrs + ' h/wk';
+  document.getElementById('bo-switches-val').textContent = sw + ' / 10';
+  document.getElementById('bo-exhaust-val').textContent = ex + ' / 10';
+  document.getElementById('bo-cynicism-val').textContent = cyn + ' / 10';
+  document.getElementById('bo-sleep-val').textContent = slp.toFixed(1) + ' h';
+
+  const hrsScore = Math.max(0, (hrs - 35) * 0.65);
+  const swScore = sw * 2.1;
+  const exScore = ex * 3.0;
+  const cynScore = cyn * 1.8;
+  const sleepDebt14 = Math.max(0, (7.5 - slp) * 14);
+  const sleepScore = sleepDebt14 * 0.7;
+  const offRelief = off * 1.8;
+
+  const idx = Math.max(4, Math.min(98, Math.round(hrsScore + swScore + exScore + cynScore + sleepScore - offRelief)));
+  document.getElementById('bo-score-txt').textContent = idx + ' / 100';
+  document.getElementById('bo-debt-val').textContent = sleepDebt14.toFixed(1) + ' h';
+
+  // Gauge arc end coordinate
+  const angle = Math.PI * (1 - (idx / 100));
+  const exPt = 140 + 110 * Math.cos(angle);
+  const eyPt = 130 - 110 * Math.sin(angle);
+  const arc = document.getElementById('bo-arc');
+  arc.setAttribute('d', 'M 30 130 A 110 110 0 0 1 ' + exPt.toFixed(1) + ' ' + eyPt.toFixed(1));
+
+  let zone = '', sub = '', col = '#15803d', rec = '1–2 Days';
+  let list = [];
+  if (idx < 35) {
+    zone = 'Sustainable Cognitive Load (' + idx + ' / 100)';
+    sub = 'Your workload and recovery cadence are well balanced.';
+    col = '#15803d'; rec = '1–2 Days';
+    list.push('<li>Preserve your current sleep window and keep at least one full screen-free weekend day per week.</li>');
+    list.push('<li>Continue batching shallow administrative tasks outside your peak cognitive hours.</li>');
+  } else if (idx < 65) {
+    zone = 'Moderate Cumulative Strain (' + idx + ' / 100)';
+    sub = 'Elevated context-switching residue and recovery deficit detected.';
+    col = '#b45309'; rec = '4–7 Days';
+    list.push('<li><strong>Attention Protection:</strong> Establish two 90-minute "Do Not Disturb" deep-work blocks daily with messaging apps closed.</li>');
+    list.push('<li><strong>Sleep Debt Paydown:</strong> Add 45 minutes to your nightly sleep opportunity for the next 10 nights to clear ' + sleepDebt14.toFixed(1) + 'h of cumulative debt.</li>');
+  } else {
+    zone = 'High Burnout Overload (' + idx + ' / 100)';
+    sub = 'Chronic strain exceeds daily homeostatic recovery capacity.';
+    col = '#b91c1c'; rec = '10–14+ Days';
+    list.push('<li><strong>Immediate Load Reduction:</strong> Defer non-essential commitments and cap daily work hours strictly for the next 2 weeks.</li>');
+    list.push('<li><strong>Full Disconnection Buffer:</strong> Schedule at least 3 consecutive days without work email or high-cognitive obligations.</li>');
+  }
+  arc.setAttribute('stroke', col);
+  document.getElementById('bo-banner').style.borderLeftColor = col;
+  document.getElementById('bo-zone').textContent = zone;
+  document.getElementById('bo-sub').textContent = sub;
+  document.getElementById('bo-rec-days').textContent = rec;
+  document.getElementById('bo-protocols').innerHTML = list.join('');
+}
+document.addEventListener('DOMContentLoaded', calcBurnoutLoad);
+</script>
+
+  </main>
+  <footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <h3>DenuModi Mood &amp; Energy Lab</h3>
+      <p style="font-size:0.9rem;color:#cbd5e1;margin-bottom:12px;">
+        Interactive affective science utilities built on Russell's Circumplex Model of Affect (Valence &times; Arousal), PANAS dimensions, and circadian chronobiology. All calculations run 100% locally in your browser.
+      </p>
+      <p style="font-size:0.82rem;color:#94a3b8;">
+        Educational &amp; self-reflection utility only. Not a clinical or medical diagnostic instrument.
+      </p>
+    </div>
+    <div>
+      <h3>Interactive Mood Tools</h3>
+      <ul>
+        <li><a href="index.html">2D Mood &amp; Affect Check</a></li>
+        <li><a href="burnout-load-calculator.html">Cognitive Burnout Calculator</a></li>
+        <li><a href="circadian-mood-planner.html">Circadian Peak Mood Planner</a></li>
+        <li><a href="breathing-pacer-tool.html">Autonomic Breathing Pacer</a></li>
+        <li><a href="emotion-wheel-tool.html">72-State Emotion Granularity Wheel</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Affective Science Guides</h3>
+      <ul>
+        <li><a href="circumplex-model-of-affect-guide.html">Circumplex Model of Affect</a></li>
+        <li><a href="sleep-debt-mood-volatility-science.html">Sleep Debt &amp; Mood Volatility</a></li>
+        <li><a href="emotional-granularity-productivity.html">Emotional Granularity Science</a></li>
+        <li><a href="ultradian-rhythms-energy-dips.html">Ultradian 90-Minute Cycles</a></li>
+        <li><a href="caffeine-half-life-anxiety-curve.html">Caffeine Half-Life &amp; Mood</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Governance &amp; Trust</h3>
+      <ul>
+        <li><a href="about.html">About DenuModi</a></li>
+        <li><a href="editorial-policy.html">Editorial &amp; Research Policy</a></li>
+        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="disclaimer.html">Wellness Disclaimer</a></li>
+        <li><a href="contact.html">Contact &amp; Feedback</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 DenuModi (denumodi.github.io). All rights reserved.</span>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;">
+      <a href="sitemap.xml" style="color:#cbd5e1;min-height:44px;display:inline-flex;align-items:center;">XML Sitemap</a>
+      <a href="llms.txt" style="color:#cbd5e1;min-height:44px;display:inline-flex;align-items:center;">LLMs.txt</a>
+      <a href="#top" style="color:#ffffff;font-weight:700;min-height:44px;display:inline-flex;align-items:center;">&uarr; Back to Top</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
