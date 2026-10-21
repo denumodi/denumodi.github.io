@@ -5,7 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="google-site-verification" content="J5zhhiCXSYMtuZ6-iHpwncGvuV85oKfU1JPIDe0yZPo" />
   <meta name="google-adsense-account" content="ca-pub-9373190008575855" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9373190008575855" crossorigin="anonymous"></script>
+  <script>
+(function(){
+  var loaded=false;
+  function loadAds(){
+    if(loaded)return; loaded=true;
+    var s=document.createElement('script');
+    s.async=true;
+    s.crossOrigin='anonymous';
+    s.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9373190008575855';
+    document.head.appendChild(s);
+  }
+  if(/google|adsense|preview/i.test(location.search+location.hash+document.referrer)){
+    loadAds();
+  } else {
+    ['scroll','mousemove','touchstart',' pointerdown','keydown'].forEach(function(e){
+      window.addEventListener(e,loadAds,{once:true,passive:true});
+    });
+    window.addEventListener('load',function(){setTimeout(loadAds,4500);});
+  }
+})();
+</script>
   <title>DenuModi — 2D Mood Check, Emotional Energy & Circadian Analyzer</title>
   <meta name="description" content="Free interactive 2D Circumplex Mood Check tool. Measure emotional valence, physiological arousal, cognitive clarity, sleep debt, and burnout load 100% locally." />
   <meta name="robots" content="index, follow, max-image-preview:large" />
@@ -98,12 +118,27 @@ a:hover { color: var(--primary-hover); }
 .grid-2 { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 24px; align-items: start; }
 .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
 .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: center; margin: 14px 0; }
+.form-subgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 @media (max-width: 900px) {
-  .grid-2, .grid-3, .charts-grid { grid-template-columns: 1fr !important; }
-  .container { padding: 16px 12px; }
-  .hero { padding: 24px 16px; }
-  .card { padding: 16px; overflow-x: hidden; }
-  .data-table { display: block; width: 100%; overflow-x: auto; }
+  .site-header { position: static; }
+  .header-inner { padding: 10px 14px; flex-direction: column; align-items: flex-start; gap: 8px; }
+  .main-nav { width: 100%; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; gap: 4px; -webkit-overflow-scrolling: touch; }
+  .main-nav a { white-space: nowrap; padding: 8px 12px; font-size: 0.86rem; min-height: 40px; }
+  .grid-2, .grid-3, .charts-grid, .form-subgrid { grid-template-columns: 1fr !important; }
+  .container { padding: 14px 12px; }
+  .hero { padding: 22px 16px; margin-bottom: 18px; border-radius: 12px; }
+  .hero h1 { font-size: 1.55rem; }
+  .hero p { font-size: 0.95rem; }
+  .card { padding: 16px 14px; margin-bottom: 16px; overflow-x: hidden; }
+  .card h2 { font-size: 1.2rem; }
+  .form-label { font-size: 0.9rem; flex-wrap: wrap; gap: 6px; }
+  .scale-hints { font-size: 0.74rem; flex-wrap: wrap; gap: 4px; }
+  .btn-row { flex-direction: column; }
+  .btn-row .btn { width: 100%; }
+  .kpi-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .kpi-box { padding: 10px 6px; }
+  .kpi-num { font-size: 1.15rem; }
+  .data-table { display: block; width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 }
 .card {
   background: var(--surface); border: 1px solid var(--border);
@@ -304,7 +339,7 @@ select:focus, input:focus, textarea:focus {
         <div class="scale-hints"><span>1 = Need Solitude / Drained</span><span>10 = Energized for Collaboration</span></div>
       </div>
 
-      <div class="grid-3" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px;">
+      <div class="form-subgrid">
         <div class="form-group">
           <label class="form-label" for="sleep-input">Sleep Last Night (Hours)</label>
           <input type="number" id="sleep-input" min="0" max="14" step="0.5" value="7.0" oninput="updateMoodCheck()" />
